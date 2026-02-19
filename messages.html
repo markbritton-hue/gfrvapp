@@ -25,16 +25,14 @@
             transition: color 0.2s;
         }
 
-        .back-link:hover {
-            color: #60a5fa;
-        }
+        .back-link:hover { color: #60a5fa; }
 
         .header-section {
             text-align: center;
             margin-bottom: 40px;
         }
 
-        .header-section .header-icon {
+        .header-icon {
             font-size: 3.5rem;
             color: #60a5fa;
             margin-bottom: 15px;
@@ -95,13 +93,8 @@
             color: white;
         }
 
-        .form-control::placeholder {
-            color: rgba(255, 255, 255, 0.3);
-        }
-
-        .form-select option {
-            background: #1e293b;
-        }
+        .form-control::placeholder { color: rgba(255, 255, 255, 0.3); }
+        .form-select option { background: #1e293b; }
 
         .btn-post {
             background: #60a5fa;
@@ -121,25 +114,30 @@
             color: white;
         }
 
+        .btn-post:disabled {
+            opacity: 0.6;
+            transform: none;
+            cursor: not-allowed;
+        }
+
         .message-card {
             background: rgba(15, 23, 42, 0.6);
             border: 1px solid rgba(96, 165, 250, 0.15);
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 16px;
-            transition: all 0.2s;
+            transition: border-color 0.2s;
         }
 
         .message-card:hover {
-            border-color: rgba(96, 165, 250, 0.4);
-            background: rgba(15, 23, 42, 0.8);
+            border-color: rgba(96, 165, 250, 0.35);
         }
 
         .message-meta {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 10px;
+            gap: 10px;
+            margin-bottom: 12px;
             flex-wrap: wrap;
         }
 
@@ -150,43 +148,45 @@
         }
 
         .message-date {
-            color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.35);
             font-size: 0.8rem;
         }
 
         .message-category {
-            font-size: 0.75rem;
-            font-weight: 600;
+            font-size: 0.72rem;
+            font-weight: 700;
             padding: 3px 10px;
             border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
         }
 
-        .cat-announcement { background: rgba(96, 165, 250, 0.2); color: #60a5fa; }
-        .cat-question     { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
-        .cat-event        { background: rgba(139, 92, 246, 0.2); color: #a78bfa; }
-        .cat-general      { background: rgba(255, 255, 255, 0.1); color: rgba(255,255,255,0.6); }
+        .cat-general      { background: rgba(255,255,255,0.08);  color: rgba(255,255,255,0.55); }
+        .cat-announcement { background: rgba(96,165,250,0.18);   color: #60a5fa; }
+        .cat-question     { background: rgba(245,158,11,0.18);   color: #f59e0b; }
+        .cat-event        { background: rgba(167,139,250,0.18);  color: #a78bfa; }
 
         .message-text {
             color: rgba(255, 255, 255, 0.85);
-            line-height: 1.7;
+            line-height: 1.75;
             font-size: 0.97rem;
             white-space: pre-wrap;
+            word-break: break-word;
         }
 
         .btn-delete {
             background: none;
             border: none;
-            color: rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.18);
             font-size: 0.8rem;
             cursor: pointer;
             padding: 0;
-            transition: color 0.2s;
             margin-left: auto;
+            transition: color 0.2s;
+            flex-shrink: 0;
         }
 
-        .btn-delete:hover {
-            color: #ef4444;
-        }
+        .btn-delete:hover { color: #ef4444; }
 
         .empty-state {
             text-align: center;
@@ -200,8 +200,38 @@
             display: block;
         }
 
+        .status-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.35);
+            margin-bottom: 16px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10b981;
+            box-shadow: 0 0 6px rgba(16,185,129,0.6);
+        }
+
+        .status-dot.offline {
+            background: #ef4444;
+            box-shadow: 0 0 6px rgba(239,68,68,0.6);
+        }
+
+        .error-msg {
+            color: #ef4444;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            display: none;
+        }
+
         @media (max-width: 768px) {
             .header-section h1 { font-size: 2rem; }
+            .card-panel { padding: 20px; }
         }
     </style>
 </head>
@@ -238,52 +268,69 @@
                 <label class="form-label">Message</label>
                 <textarea id="inputMessage" class="form-control" rows="4" placeholder="Write your message here..."></textarea>
             </div>
-            <button class="btn-post" onclick="postMessage()">
+            <button id="btnPost" class="btn-post" onclick="postMessage()">
                 <i class="fas fa-paper-plane me-2"></i>Post Message
             </button>
-            <div id="postError" style="color: #ef4444; font-size: 0.9rem; margin-top: 10px; display: none;"></div>
+            <div id="postError" class="error-msg"></div>
         </div>
 
-        <!-- Messages List -->
+        <!-- Message Board -->
         <div class="card-panel">
-            <h3><i class="fas fa-comments me-2"></i>Community Messages</h3>
-            <div id="messageList"></div>
+            <h3><i class="fas fa-comments me-2"></i>Community Board</h3>
+            <div class="status-bar">
+                <div id="statusDot" class="status-dot offline"></div>
+                <span id="statusText">Connecting...</span>
+            </div>
+            <div id="messageList">
+                <div class="empty-state">
+                    <i class="fas fa-circle-notch fa-spin"></i>
+                    Loading messages...
+                </div>
+            </div>
         </div>
 
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
     <script>
-        const STORAGE_KEY = 'gfrvMessages';
+        const firebaseConfig = {
+            apiKey: "AIzaSyByg9ZY5dIV9_WvQ8I5ydDNqzTaz40zuho",
+            authDomain: "gfrvapp.firebaseapp.com",
+            projectId: "gfrvapp",
+            storageBucket: "gfrvapp.firebasestorage.app",
+            messagingSenderId: "363037955741",
+            appId: "1:363037955741:web:130153fe4e86ac2504a674"
+        };
 
-        function loadMessages() {
-            return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const messagesRef = db.collection('messages');
+
+        // --- Real-time listener ---
+        messagesRef.orderBy('ts', 'desc').onSnapshot(
+            snapshot => {
+                setStatus(true);
+                renderMessages(snapshot.docs);
+            },
+            err => {
+                setStatus(false);
+                console.error(err);
+            }
+        );
+
+        function setStatus(online) {
+            document.getElementById('statusDot').className = 'status-dot' + (online ? '' : ' offline');
+            document.getElementById('statusText').textContent = online ? 'Live — updates automatically' : 'Connection error';
         }
 
-        function saveMessages(messages) {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
-        }
-
-        function categoryClass(cat) {
-            return 'cat-' + cat;
-        }
-
-        function categoryLabel(cat) {
-            return cat.charAt(0).toUpperCase() + cat.slice(1);
-        }
-
-        function formatDate(ts) {
-            const d = new Date(ts);
-            return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-                + ' at '
-                + d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-        }
-
-        function renderMessages() {
-            const messages = loadMessages();
+        function renderMessages(docs) {
             const list = document.getElementById('messageList');
-
-            if (messages.length === 0) {
+            if (docs.length === 0) {
                 list.innerHTML = `
                     <div class="empty-state">
                         <i class="fas fa-comments"></i>
@@ -291,33 +338,29 @@
                     </div>`;
                 return;
             }
-
-            list.innerHTML = messages.slice().reverse().map((msg, i) => {
-                const realIndex = messages.length - 1 - i;
+            list.innerHTML = docs.map(doc => {
+                const m = doc.data();
                 return `
                 <div class="message-card">
                     <div class="message-meta">
-                        <span class="message-author"><i class="fas fa-user-circle me-1"></i>${escHtml(msg.name)}</span>
-                        <span class="message-category ${categoryClass(msg.category)}">${categoryLabel(msg.category)}</span>
-                        <span class="message-date">${formatDate(msg.ts)}</span>
-                        <button class="btn-delete" onclick="deleteMessage(${realIndex})" title="Delete">
+                        <span class="message-author"><i class="fas fa-user-circle me-1"></i>${esc(m.name)}</span>
+                        <span class="message-category cat-${esc(m.category)}">${catLabel(m.category)}</span>
+                        <span class="message-date">${formatDate(m.ts)}</span>
+                        <button class="btn-delete" onclick="deleteMessage('${doc.id}')" title="Delete">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
-                    <div class="message-text">${escHtml(msg.text)}</div>
+                    <div class="message-text">${esc(m.text)}</div>
                 </div>`;
             }).join('');
         }
 
-        function escHtml(str) {
-            return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-        }
-
-        function postMessage() {
+        async function postMessage() {
             const name = document.getElementById('inputName').value.trim();
             const category = document.getElementById('inputCategory').value;
             const text = document.getElementById('inputMessage').value.trim();
             const errEl = document.getElementById('postError');
+            const btn = document.getElementById('btnPost');
 
             if (!name || !text) {
                 errEl.textContent = 'Please fill in your name and message.';
@@ -325,23 +368,52 @@
                 return;
             }
             errEl.style.display = 'none';
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin me-2"></i>Posting...';
 
-            const messages = loadMessages();
-            messages.push({ name, category, text, ts: Date.now() });
-            saveMessages(messages);
-
-            document.getElementById('inputMessage').value = '';
-            renderMessages();
+            try {
+                await messagesRef.add({
+                    name,
+                    category,
+                    text,
+                    ts: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                document.getElementById('inputMessage').value = '';
+            } catch (err) {
+                errEl.textContent = 'Failed to post: ' + err.message;
+                errEl.style.display = 'block';
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Post Message';
+            }
         }
 
-        function deleteMessage(index) {
-            const messages = loadMessages();
-            messages.splice(index, 1);
-            saveMessages(messages);
-            renderMessages();
+        async function deleteMessage(id) {
+            try {
+                await messagesRef.doc(id).delete();
+            } catch (err) {
+                alert('Could not delete: ' + err.message);
+            }
         }
 
-        renderMessages();
+        function catLabel(cat) {
+            return cat.charAt(0).toUpperCase() + cat.slice(1);
+        }
+
+        function formatDate(ts) {
+            if (!ts) return '';
+            const d = ts.toDate();
+            return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                + ' at ' + d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+        }
+
+        function esc(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
     </script>
 </body>
 </html>
