@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GFRV Community</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .hero {
+            padding-top: 80px;
+            padding-bottom: 60px;
+            text-align: center;
+        }
+
+        .hero-icon {
+            font-size: 5rem;
+            color: #60a5fa;
+            margin-bottom: 30px;
+            text-shadow: 0 0 30px rgba(96, 165, 250, 0.5);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.3rem;
+            margin-bottom: 50px;
+        }
+
+        .feature-card {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            border-color: #60a5fa;
+        }
+
+        .feature-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h2 {
+            color: #60a5fa;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 25px;
+        }
+
+        .btn-messages {
+            background: #60a5fa;
+            border: none;
+            font-weight: 600;
+            padding: 12px 30px;
+            border-radius: 25px;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
+        }
+
+        .btn-messages:hover {
+            background: #3b82f6;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(96, 165, 250, 0.4);
+            color: white;
+        }
+
+        .btn-classifieds {
+            background: #f59e0b;
+            border: none;
+            font-weight: 600;
+            padding: 12px 30px;
+            border-radius: 25px;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-classifieds:hover {
+            background: #d97706;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(245, 158, 11, 0.4);
+            color: white;
+        }
+
+        .btn-residents {
+            background: #10b981;
+            border: none;
+            font-weight: 600;
+            padding: 12px 30px;
+            border-radius: 25px;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-residents:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <div class="hero-icon">
+                <i class="fas fa-house-chimney"></i>
+            </div>
+            <h1>GFRV Community</h1>
+            <p>Your community hub — stay connected with neighbors</p>
+
+            <div class="row g-4 mb-5 justify-content-center">
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card" onclick="window.location.href='messages.html'">
+                        <div class="feature-icon">
+                            <i class="fas fa-comments" style="color: #60a5fa;"></i>
+                        </div>
+                        <h2>Messages</h2>
+                        <p>Community announcements and neighborhood discussions</p>
+                        <a href="messages.html" class="btn-messages">
+                            <i class="fas fa-arrow-right me-2"></i>View Messages
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card" onclick="window.location.href='classifieds.html'">
+                        <div class="feature-icon">
+                            <i class="fas fa-tag" style="color: #f59e0b;"></i>
+                        </div>
+                        <h2>Classifieds</h2>
+                        <p>Buy, sell, and trade with your neighbors</p>
+                        <a href="classifieds.html" class="btn-classifieds">
+                            <i class="fas fa-arrow-right me-2"></i>View Classifieds
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card" onclick="window.location.href='residents.html'">
+                        <div class="feature-icon">
+                            <i class="fas fa-users" style="color: #10b981;"></i>
+                        </div>
+                        <h2>Residents</h2>
+                        <p>Directory and profiles for community members</p>
+                        <a href="residents.html" class="btn-residents">
+                            <i class="fas fa-arrow-right me-2"></i>View Residents
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
