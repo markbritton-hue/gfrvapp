@@ -93,6 +93,22 @@
             color: white; border-radius: 8px; padding: 12px;
         }
 
+        .input-group-text {
+            background: rgba(245,158,11,0.15); border: 2px solid rgba(245,158,11,0.25);
+            border-right: none; color: #f59e0b; font-weight: 700; border-radius: 8px 0 0 8px;
+        }
+
+        .input-group .form-control {
+            border-left: none; border-radius: 0 8px 8px 0;
+        }
+
+        .input-group .form-control:focus { border-left: none; }
+
+        /* Remove browser number input arrows */
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type=number] { -moz-appearance: textfield; }
+
         .form-control:focus, .form-select:focus {
             background: rgba(15,23,42,0.9); border-color: #f59e0b;
             box-shadow: 0 0 0 3px rgba(245,158,11,0.2); color: white;
@@ -384,9 +400,12 @@
                     <option value="services">Services</option>
                 </select>
             </div>
-            <div id="priceRow" class="mb-3 price-row">
+            <div id="priceRow" class="mb-3">
                 <label class="form-label">Price</label>
-                <input type="text" id="inputPrice" class="form-control" placeholder="e.g. $50 or OBO">
+                <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input type="number" id="inputPrice" class="form-control" placeholder="0.00" min="0" step="0.01">
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-label">Description</label>
@@ -459,7 +478,10 @@
             </div>
             <div id="editPriceRow" class="mb-3">
                 <label class="form-label">Price</label>
-                <input type="text" id="editPrice" class="form-control" placeholder="e.g. $50 or OBO">
+                <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input type="number" id="editPrice" class="form-control" placeholder="0.00" min="0" step="0.01">
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-label">Description</label>
@@ -582,7 +604,7 @@
 
             list.innerHTML = filtered.map(doc => {
                 const l = doc.data();
-                const price   = l.price ? `<span class="listing-price">${esc(l.price)}</span>` : '';
+                const price   = l.price ? `<span class="listing-price">$${esc(l.price)}</span>` : '';
                 const contact = l.contact ? `<div class="listing-contact"><i class="fas fa-phone-flip"></i>${linkifyContact(l.contact)}</div>` : '';
                 const image   = l.imageUrl ? `<img src="${esc(l.imageUrl)}" class="listing-image" alt="Listing photo">` : '';
                 const actions = currentUser

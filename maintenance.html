@@ -390,7 +390,7 @@
             }
             el.innerHTML = docs.map(doc => {
                 const l = doc.data();
-                const price   = l.price   ? `<span class="review-price">${esc(l.price)}</span>` : '';
+                const price   = l.price   ? `<span class="review-price">$${esc(l.price)}</span>` : '';
                 const contact = l.contact ? `<div class="review-contact"><i class="fas fa-phone-flip me-1"></i>${esc(l.contact)}</div>` : '';
                 const image   = l.imageUrl ? `<img src="${esc(l.imageUrl)}" class="review-image" alt="Listing photo">` : '';
                 return `
