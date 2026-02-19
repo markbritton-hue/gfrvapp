@@ -362,7 +362,7 @@
             </a>
             <div class="nav-right">
                 <button class="btn-new-listing" onclick="toggleForm()">
-                    <i id="newListingIcon" class="fas fa-plus me-2"></i><span id="newListingLabel">Post a Listing</span>
+                    <i id="newListingIcon" class="fas fa-plus me-2"></i><span id="newListingLabel">Submit a Listing</span>
                 </button>
                 <div id="authLoggedOut">
                     <button class="btn-login-small" onclick="openLoginModal()">
@@ -380,9 +380,9 @@
             <p>Buy, sell, trade, and find services in the community</p>
         </div>
 
-        <!-- Post a Listing (hidden by default) -->
+        <!-- Submit a Listing (hidden by default) -->
         <div id="formPanel" class="card-panel form-panel">
-            <h3><i class="fas fa-tag me-2"></i>Post a Listing</h3>
+            <h3><i class="fas fa-tag me-2"></i>Submit a Listing</h3>
             <div class="mb-3">
                 <label class="form-label">Your Name</label>
                 <input type="text" id="inputName" class="form-control" placeholder="e.g. Jane Smith">
@@ -743,7 +743,7 @@
             const open  = panel.style.display === 'block';
             panel.style.display = open ? 'none' : 'block';
             icon.className  = open ? 'fas fa-plus me-2' : 'fas fa-times me-2';
-            label.textContent = open ? 'Post a Listing' : 'Cancel';
+            label.textContent = open ? 'Submit a Listing' : 'Cancel';
         }
 
         function onCategoryChange() { /* price always visible */ }
