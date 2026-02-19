@@ -14,18 +14,32 @@
             padding: 20px 0 60px;
         }
 
-        .back-link {
-            color: rgba(255, 255, 255, 0.5);
-            text-decoration: none;
-            font-size: 0.95rem;
-            display: inline-flex;
+        .top-nav {
+            display: flex;
             align-items: center;
-            gap: 6px;
+            justify-content: space-between;
             margin-bottom: 30px;
-            transition: color 0.2s;
         }
 
-        .back-link:hover { color: #60a5fa; }
+        .back-link {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 18px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 25px;
+            transition: all 0.2s;
+        }
+
+        .back-link:hover {
+            color: #60a5fa;
+            border-color: #60a5fa;
+            background: rgba(96, 165, 250, 0.08);
+        }
 
         .header-section {
             text-align: center;
@@ -239,7 +253,6 @@
             color: white;
             transition: all 0.2s;
             box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
-            margin-bottom: 24px;
         }
 
         .btn-new-message:hover {
@@ -279,20 +292,20 @@
 <body>
     <div class="container" style="max-width: 760px;">
 
-        <a href="index.html" class="back-link">
-            <i class="fas fa-arrow-left"></i> Back to Home
-        </a>
+        <div class="top-nav">
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            <button class="btn-new-message" onclick="toggleForm()">
+                <i id="newMsgIcon" class="fas fa-plus me-2"></i><span id="newMsgLabel">New Message</span>
+            </button>
+        </div>
 
         <div class="header-section">
             <div class="header-icon"><i class="fas fa-comments"></i></div>
             <h1>Messages</h1>
             <p>Community announcements and neighborhood discussions</p>
         </div>
-
-        <!-- New Message Button -->
-        <button class="btn-new-message" onclick="toggleForm()">
-            <i id="newMsgIcon" class="fas fa-plus me-2"></i><span id="newMsgLabel">New Message</span>
-        </button>
 
         <!-- Post a Message (hidden by default) -->
         <div id="formPanel" class="card-panel form-panel">
