@@ -136,10 +136,151 @@
             color: white;
         }
 
+        .emergency-banner {
+            display: none;
+            background: rgba(239, 68, 68, 0.15);
+            border: 2px solid rgba(239, 68, 68, 0.7);
+            border-radius: 15px;
+            padding: 20px 25px;
+            margin-bottom: 35px;
+            text-align: left;
+        }
+
+        .emergency-banner-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ef4444;
+            font-size: 1rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .emergency-banner-header i {
+            font-size: 1.2rem;
+            animation: pulse 1.2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50%       { opacity: 0.4; }
+        }
+
+        .emergency-item {
+            border-top: 1px solid rgba(239, 68, 68, 0.25);
+            padding: 10px 0 4px;
+        }
+
+        .emergency-item-name {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.8rem;
+            margin-bottom: 3px;
+        }
+
+        .emergency-item-text {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .emergency-link {
+            color: #ef4444;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 12px;
+        }
+
+        .emergency-link:hover { color: #fca5a5; }
+
+        /* Emergency Modal */
+        .emergency-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .emergency-modal {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 2px solid rgba(239, 68, 68, 0.7);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(239, 68, 68, 0.3);
+        }
+
+        .emergency-modal-icon {
+            font-size: 3.5rem;
+            color: #ef4444;
+            margin-bottom: 15px;
+            animation: pulse 1.2s infinite;
+        }
+
+        .emergency-modal h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #ef4444;
+            margin-bottom: 20px;
+        }
+
+        .emergency-modal-messages {
+            text-align: left;
+            margin-bottom: 25px;
+        }
+
+        .emergency-modal-item {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 10px;
+        }
+
+        .emergency-modal-item-name {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.8rem;
+            margin-bottom: 4px;
+        }
+
+        .emergency-modal-item-text {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .btn-dismiss {
+            background: #ef4444;
+            border: none;
+            color: white;
+            font-weight: 700;
+            padding: 12px 32px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgba(239,68,68,0.4);
+        }
+
+        .btn-dismiss:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+        }
+
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
+            .hero h1 { font-size: 2.5rem; }
+            .emergency-modal { padding: 25px; }
         }
     </style>
 </head>
@@ -151,6 +292,17 @@
             </div>
             <h1>GFRV Park</h1>
             <p>Your community hub — stay connected with neighbors</p>
+
+            <!-- Emergency Banner -->
+            <div id="emergencyBanner" class="emergency-banner">
+                <div class="emergency-banner-header">
+                    <i class="fas fa-triangle-exclamation"></i> Emergency Alert
+                </div>
+                <div id="emergencyBannerItems"></div>
+                <a href="messages.html" class="emergency-link">
+                    <i class="fas fa-arrow-right"></i> View all messages
+                </a>
+            </div>
 
             <div class="row g-4 mb-5 justify-content-center">
                 <div class="col-lg-4 col-md-6">
@@ -195,6 +347,87 @@
         </div>
     </div>
 
+    <!-- Emergency Modal -->
+    <div id="emergencyModal" class="emergency-modal-overlay">
+        <div class="emergency-modal">
+            <div class="emergency-modal-icon">
+                <i class="fas fa-triangle-exclamation"></i>
+            </div>
+            <h2>Emergency Alert</h2>
+            <div id="emergencyModalMessages" class="emergency-modal-messages"></div>
+            <button class="btn-dismiss" onclick="dismissModal()">I Understand</button>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyByg9ZY5dIV9_WvQ8I5ydDNqzTaz40zuho",
+            authDomain: "gfrvapp.firebaseapp.com",
+            projectId: "gfrvapp",
+            storageBucket: "gfrvapp.firebasestorage.app",
+            messagingSenderId: "363037955741",
+            appId: "1:363037955741:web:130153fe4e86ac2504a674"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        let modalShown = false;
+
+        db.collection('messages')
+            .where('category', '==', 'emergency')
+            .orderBy('ts', 'desc')
+            .onSnapshot(snapshot => {
+                const docs = snapshot.docs;
+                const banner  = document.getElementById('emergencyBanner');
+                const bannerItems = document.getElementById('emergencyBannerItems');
+                const modalMessages = document.getElementById('emergencyModalMessages');
+
+                if (docs.length === 0) {
+                    banner.style.display = 'none';
+                    return;
+                }
+
+                // Render banner items
+                bannerItems.innerHTML = docs.map(doc => {
+                    const m = doc.data();
+                    return `
+                    <div class="emergency-item">
+                        <div class="emergency-item-name"><i class="fas fa-user-circle me-1"></i>${esc(m.name)}</div>
+                        <div class="emergency-item-text">${esc(m.text)}</div>
+                    </div>`;
+                }).join('');
+                banner.style.display = 'block';
+
+                // Show modal once per page load
+                if (!modalShown) {
+                    modalMessages.innerHTML = docs.slice(0, 3).map(doc => {
+                        const m = doc.data();
+                        return `
+                        <div class="emergency-modal-item">
+                            <div class="emergency-modal-item-name"><i class="fas fa-user-circle me-1"></i>${esc(m.name)}</div>
+                            <div class="emergency-modal-item-text">${esc(m.text)}</div>
+                        </div>`;
+                    }).join('');
+                    document.getElementById('emergencyModal').style.display = 'flex';
+                    modalShown = true;
+                }
+            });
+
+        function dismissModal() {
+            document.getElementById('emergencyModal').style.display = 'none';
+        }
+
+        function esc(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+    </script>
 </body>
 </html>
