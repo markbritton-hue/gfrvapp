@@ -609,7 +609,6 @@
 
             if (docs.length === 0) {
                 banner.style.display = 'none';
-                sessionStorage.removeItem('emergencyDismissedCount');
                 return;
             }
 
@@ -622,9 +621,8 @@
             }).join('');
             banner.style.display = 'block';
 
-            // Show popup only if not yet shown this visit AND count has grown since last dismiss
-            const dismissedCount = parseInt(sessionStorage.getItem('emergencyDismissedCount') || '0');
-            if (!emergencyShown && docs.length > dismissedCount) {
+            // Show popup once per page load
+            if (!emergencyShown) {
                 modalMsgs.innerHTML = docs.slice(0, 3).map(doc => {
                     const m = doc.data();
                     return `<div class="emergency-modal-item">
@@ -639,9 +637,6 @@
 
         function dismissEmergency() {
             document.getElementById('emergencyModal').style.display = 'none';
-            // Remember the count — only re-pop if new emergencies are added
-            const count = document.getElementById('emergencyModalMessages').querySelectorAll('.emergency-modal-item').length;
-            sessionStorage.setItem('emergencyDismissedCount', count.toString());
         }
 
         function esc(str) {
