@@ -19,10 +19,12 @@
             align-items: center;
             justify-content: space-between;
             margin-bottom: 30px;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         .back-link {
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255,255,255,0.7);
             text-decoration: none;
             font-size: 0.9rem;
             font-weight: 600;
@@ -30,7 +32,7 @@
             align-items: center;
             gap: 7px;
             padding: 8px 18px;
-            border: 1px solid rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(255,255,255,0.25);
             border-radius: 25px;
             transition: all 0.2s;
         }
@@ -38,38 +40,69 @@
         .back-link:hover {
             color: #60a5fa;
             border-color: #60a5fa;
-            background: rgba(96, 165, 250, 0.08);
+            background: rgba(96,165,250,0.08);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .user-email-badge {
+            color: rgba(255,255,255,0.45);
+            font-size: 0.8rem;
+        }
+
+        .btn-login-small {
+            background: none;
+            border: 1px solid rgba(255,255,255,0.25);
+            color: rgba(255,255,255,0.7);
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 7px 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-login-small:hover {
+            border-color: #60a5fa;
+            color: #60a5fa;
+            background: rgba(96,165,250,0.08);
+        }
+
+        .btn-logout-small {
+            background: none;
+            border: 1px solid rgba(239,68,68,0.35);
+            color: rgba(239,68,68,0.7);
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-logout-small:hover {
+            border-color: #ef4444;
+            color: #ef4444;
         }
 
         .header-section {
             text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .header-icon {
-            font-size: 3.5rem;
-            color: #60a5fa;
-            margin-bottom: 15px;
-            text-shadow: 0 0 30px rgba(96, 165, 250, 0.5);
-        }
-
-        .header-section h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #60a5fa, #a78bfa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 8px;
+            margin-bottom: 30px;
         }
 
         .header-section p {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 1.1rem;
+            color: rgba(255,255,255,0.6);
+            font-size: 1.05rem;
         }
 
         .card-panel {
-            background: rgba(30, 41, 59, 0.8);
-            border: 1px solid rgba(96, 165, 250, 0.2);
+            background: rgba(30,41,59,0.8);
+            border: 1px solid rgba(96,165,250,0.2);
             border-radius: 15px;
             padding: 30px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.5);
@@ -84,7 +117,7 @@
         }
 
         .form-label {
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255,255,255,0.7);
             font-size: 0.85rem;
             font-weight: 600;
             text-transform: uppercase;
@@ -93,86 +126,66 @@
         }
 
         .form-control, .form-select {
-            background: rgba(15, 23, 42, 0.7);
-            border: 2px solid rgba(96, 165, 250, 0.3);
+            background: rgba(15,23,42,0.7);
+            border: 2px solid rgba(96,165,250,0.3);
             color: white;
             border-radius: 8px;
             padding: 12px;
         }
 
         .form-control:focus, .form-select:focus {
-            background: rgba(15, 23, 42, 0.9);
+            background: rgba(15,23,42,0.9);
             border-color: #60a5fa;
-            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+            box-shadow: 0 0 0 3px rgba(96,165,250,0.2);
             color: white;
         }
 
-        .form-control::placeholder { color: rgba(255, 255, 255, 0.3); }
+        .form-control::placeholder { color: rgba(255,255,255,0.3); }
         .form-select option { background: #1e293b; }
 
         .btn-post {
-            background: #60a5fa;
-            border: none;
-            font-weight: 600;
-            padding: 12px 30px;
-            border-radius: 25px;
-            color: white;
-            transition: all 0.2s;
-            box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
+            background: #60a5fa; border: none; font-weight: 600; padding: 12px 30px;
+            border-radius: 25px; color: white; transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(96,165,250,0.3);
         }
 
-        .btn-post:hover {
-            background: #3b82f6;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(96, 165, 250, 0.4);
-            color: white;
+        .btn-post:hover { background: #3b82f6; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(96,165,250,0.4); color: white; }
+        .btn-post:disabled { opacity: 0.6; transform: none; cursor: not-allowed; }
+
+        .btn-new-message {
+            background: #60a5fa; border: none; font-weight: 600; padding: 9px 20px;
+            border-radius: 25px; color: white; transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(96,165,250,0.3); font-size: 0.9rem;
         }
 
-        .btn-post:disabled {
-            opacity: 0.6;
-            transform: none;
-            cursor: not-allowed;
-        }
+        .btn-new-message:hover { background: #3b82f6; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(96,165,250,0.4); color: white; }
 
+        .form-panel { display: none; }
+        .event-date-row { display: none; }
+
+        /* Message Cards */
         .message-card {
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(96, 165, 250, 0.15);
+            background: rgba(15,23,42,0.6);
+            border: 1px solid rgba(96,165,250,0.15);
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 16px;
             transition: border-color 0.2s;
         }
 
-        .message-card:hover {
-            border-color: rgba(96, 165, 250, 0.35);
-        }
+        .message-card:hover { border-color: rgba(96,165,250,0.35); }
 
         .message-meta {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 12px;
-            flex-wrap: wrap;
+            display: flex; align-items: center; gap: 10px;
+            margin-bottom: 12px; flex-wrap: wrap;
         }
 
-        .message-author {
-            color: #60a5fa;
-            font-weight: 700;
-            font-size: 0.95rem;
-        }
-
-        .message-date {
-            color: rgba(255, 255, 255, 0.35);
-            font-size: 0.8rem;
-        }
+        .message-author { color: #60a5fa; font-weight: 700; font-size: 0.95rem; }
+        .message-date   { color: rgba(255,255,255,0.35); font-size: 0.8rem; }
 
         .message-category {
-            font-size: 0.72rem;
-            font-weight: 700;
-            padding: 3px 10px;
-            border-radius: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.4px;
+            font-size: 0.72rem; font-weight: 700; padding: 3px 10px;
+            border-radius: 12px; text-transform: uppercase; letter-spacing: 0.4px;
         }
 
         .cat-general      { background: rgba(255,255,255,0.08);  color: rgba(255,255,255,0.55); }
@@ -188,123 +201,179 @@
         .card-emergency    { background: rgba(239,68,68,0.3);     border-color: rgba(239,68,68,0.7); }
 
         .message-text {
-            color: rgba(255, 255, 255, 0.85);
-            line-height: 1.75;
-            font-size: 0.97rem;
-            white-space: pre-wrap;
-            word-break: break-word;
+            color: rgba(255,255,255,0.85);
+            line-height: 1.75; font-size: 0.97rem;
+            white-space: pre-wrap; word-break: break-word;
         }
 
-        .btn-delete {
-            background: none;
-            border: none;
-            color: rgba(255, 255, 255, 0.18);
-            font-size: 0.8rem;
-            cursor: pointer;
-            padding: 0;
+        .message-actions {
+            display: none;
+            gap: 10px;
             margin-left: auto;
-            transition: color 0.2s;
-            flex-shrink: 0;
         }
 
+        .message-actions.visible { display: flex; }
+
+        .btn-action {
+            background: none; border: none; font-size: 0.8rem;
+            cursor: pointer; padding: 0; transition: color 0.2s;
+        }
+
+        .btn-edit   { color: rgba(255,255,255,0.25); }
+        .btn-edit:hover  { color: #60a5fa; }
+        .btn-delete { color: rgba(255,255,255,0.25); }
         .btn-delete:hover { color: #ef4444; }
 
-        .empty-state {
-            text-align: center;
-            padding: 50px 20px;
-            color: rgba(255, 255, 255, 0.3);
+        /* Inline edit */
+        .edit-area {
+            display: none;
+            margin-top: 10px;
         }
 
-        .empty-state i {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            display: block;
+        .edit-textarea {
+            background: rgba(15,23,42,0.7);
+            border: 2px solid rgba(96,165,250,0.4);
+            color: white; border-radius: 8px; padding: 10px;
+            width: 100%; resize: vertical; min-height: 80px;
+            font-family: inherit; font-size: 0.95rem; line-height: 1.7;
+        }
+
+        .edit-textarea:focus {
+            outline: none;
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 3px rgba(96,165,250,0.2);
+        }
+
+        .edit-buttons { display: flex; gap: 8px; margin-top: 8px; }
+
+        .btn-save {
+            background: #60a5fa; border: none; color: white; font-weight: 600;
+            padding: 7px 18px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;
+        }
+
+        .btn-save:hover { background: #3b82f6; }
+
+        .btn-cancel-edit {
+            background: none; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.5);
+            font-weight: 600; padding: 7px 18px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;
+        }
+
+        .btn-cancel-edit:hover { border-color: rgba(255,255,255,0.4); color: rgba(255,255,255,0.8); }
+
+        .event-date-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(167,139,250,0.15); color: #a78bfa;
+            font-size: 0.82rem; font-weight: 600; padding: 3px 10px;
+            border-radius: 10px; margin-top: 8px;
         }
 
         .status-bar {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.8rem;
-            color: rgba(255,255,255,0.35);
-            margin-bottom: 16px;
+            display: flex; align-items: center; gap: 8px;
+            font-size: 0.8rem; color: rgba(255,255,255,0.35); margin-bottom: 16px;
         }
 
         .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #10b981;
-            box-shadow: 0 0 6px rgba(16,185,129,0.6);
+            width: 8px; height: 8px; border-radius: 50%;
+            background: #10b981; box-shadow: 0 0 6px rgba(16,185,129,0.6);
         }
 
-        .status-dot.offline {
-            background: #ef4444;
-            box-shadow: 0 0 6px rgba(239,68,68,0.6);
+        .status-dot.offline { background: #ef4444; box-shadow: 0 0 6px rgba(239,68,68,0.6); }
+
+        .error-msg { color: #ef4444; font-size: 0.9rem; margin-top: 10px; display: none; }
+
+        .empty-state { text-align: center; padding: 50px 20px; color: rgba(255,255,255,0.3); }
+        .empty-state i { font-size: 3rem; margin-bottom: 15px; display: block; }
+
+        /* Login Modal */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.75); z-index: 9999;
+            align-items: center; justify-content: center; padding: 20px;
         }
 
-        .error-msg {
-            color: #ef4444;
-            font-size: 0.9rem;
-            margin-top: 10px;
-            display: none;
+        .login-modal {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 1px solid rgba(96,165,250,0.3);
+            border-radius: 20px; padding: 40px;
+            max-width: 420px; width: 100%; position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
         }
 
-        .btn-new-message {
-            background: #60a5fa;
-            border: none;
-            font-weight: 600;
-            padding: 12px 28px;
-            border-radius: 25px;
-            color: white;
-            transition: all 0.2s;
-            box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
+        .login-modal h2 {
+            font-size: 1.6rem; font-weight: 800;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 25px; text-align: center;
         }
 
-        .btn-new-message:hover {
-            background: #3b82f6;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(96, 165, 250, 0.4);
-            color: white;
+        .modal-form-label {
+            color: rgba(255,255,255,0.6); font-size: 0.82rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; display: block;
         }
 
-        .form-panel {
-            display: none;
+        .modal-input {
+            background: rgba(15,23,42,0.7); border: 2px solid rgba(96,165,250,0.3);
+            color: white; border-radius: 8px; padding: 12px; width: 100%;
+            font-size: 0.95rem; margin-bottom: 16px; outline: none; box-sizing: border-box;
         }
 
-        .event-date-row {
-            display: none;
+        .modal-input:focus { border-color: #60a5fa; box-shadow: 0 0 0 3px rgba(96,165,250,0.2); }
+        .modal-input::placeholder { color: rgba(255,255,255,0.3); }
+
+        .btn-auth {
+            background: #60a5fa; border: none; color: white; font-weight: 700;
+            padding: 13px; border-radius: 25px; width: 100%; font-size: 1rem;
+            cursor: pointer; transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(96,165,250,0.3); margin-bottom: 14px;
         }
 
-        .event-date-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(167,139,250,0.15);
-            color: #a78bfa;
-            font-size: 0.82rem;
-            font-weight: 600;
-            padding: 3px 10px;
-            border-radius: 10px;
-            margin-top: 8px;
+        .btn-auth:hover { background: #3b82f6; transform: translateY(-2px); }
+        .btn-auth:disabled { opacity: 0.6; transform: none; cursor: not-allowed; }
+
+        .auth-toggle { text-align: center; color: rgba(255,255,255,0.45); font-size: 0.88rem; }
+        .auth-toggle a { color: #60a5fa; text-decoration: none; font-weight: 600; cursor: pointer; }
+
+        .auth-error {
+            color: #ef4444; font-size: 0.88rem; margin-bottom: 12px; display: none;
+            background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3);
+            border-radius: 8px; padding: 10px;
         }
+
+        .btn-close-modal {
+            background: none; border: none; color: rgba(255,255,255,0.3);
+            position: absolute; top: 15px; right: 20px; font-size: 1.2rem; cursor: pointer;
+        }
+
+        .btn-close-modal:hover { color: white; }
 
         @media (max-width: 768px) {
-            .header-section h1 { font-size: 2rem; }
             .card-panel { padding: 20px; }
+            .login-modal { padding: 25px; }
         }
     </style>
 </head>
 <body>
     <div class="container" style="max-width: 760px;">
 
+        <!-- Top Nav -->
         <div class="top-nav">
             <a href="index.html" class="back-link">
                 <i class="fas fa-arrow-left"></i> Back to Home
             </a>
-            <button class="btn-new-message" onclick="toggleForm()">
-                <i id="newMsgIcon" class="fas fa-plus me-2"></i><span id="newMsgLabel">New Message</span>
-            </button>
+            <div class="nav-right">
+                <div id="authLoggedOut">
+                    <button class="btn-login-small" onclick="openLoginModal()">
+                        <i class="fas fa-user me-1"></i>Login to post
+                    </button>
+                </div>
+                <div id="authLoggedIn" style="display:none; align-items:center; gap:10px;">
+                    <span class="user-email-badge" id="navUserEmail"></span>
+                    <button class="btn-new-message" onclick="toggleForm()">
+                        <i id="newMsgIcon" class="fas fa-plus me-2"></i><span id="newMsgLabel">New Message</span>
+                    </button>
+                    <button class="btn-logout-small" onclick="logout()">Logout</button>
+                </div>
+            </div>
         </div>
 
         <div class="header-section">
@@ -359,12 +428,30 @@
 
     </div>
 
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal-overlay">
+        <div class="login-modal">
+            <button class="btn-close-modal" onclick="closeLoginModal()"><i class="fas fa-times"></i></button>
+            <h2 id="modalTitle">Sign In</h2>
+            <div id="authError" class="auth-error"></div>
+            <label class="modal-form-label">Email</label>
+            <input type="email" id="authEmail" class="modal-input" placeholder="you@email.com">
+            <label class="modal-form-label">Password</label>
+            <input type="password" id="authPassword" class="modal-input" placeholder="••••••••">
+            <button id="btnAuth" class="btn-auth" onclick="submitAuth()">
+                <i class="fas fa-sign-in-alt me-2"></i>Sign In
+            </button>
+            <div class="auth-toggle">
+                <span id="toggleText">Don't have an account?</span>
+                <a onclick="toggleAuthMode()"> <span id="toggleLink">Create one</span></a>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyByg9ZY5dIV9_WvQ8I5ydDNqzTaz40zuho",
@@ -376,19 +463,36 @@
         };
 
         firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+        const auth = firebase.auth();
+        const db   = firebase.firestore();
         const messagesRef = db.collection('messages');
 
-        // --- Real-time listener ---
+        let currentUser = null;
+
+        // --- Auth state ---
+        auth.onAuthStateChanged(user => {
+            currentUser = user;
+            document.getElementById('authLoggedOut').style.display = user ? 'none' : 'block';
+            const loggedInEl = document.getElementById('authLoggedIn');
+            loggedInEl.style.display = user ? 'flex' : 'none';
+            if (user) {
+                document.getElementById('navUserEmail').textContent = user.email;
+                closeLoginModal();
+            }
+            // Re-render to show/hide action buttons
+            if (lastDocs) renderMessages(lastDocs);
+        });
+
+        // --- Firestore real-time listener ---
+        let lastDocs = null;
+
         messagesRef.orderBy('ts', 'desc').onSnapshot(
             snapshot => {
                 setStatus(true);
-                renderMessages(snapshot.docs);
+                lastDocs = snapshot.docs;
+                renderMessages(lastDocs);
             },
-            err => {
-                setStatus(false);
-                console.error(err);
-            }
+            err => { setStatus(false); console.error(err); }
         );
 
         function setStatus(online) {
@@ -396,6 +500,72 @@
             document.getElementById('statusText').textContent = online ? 'Live — updates automatically' : 'Connection error';
         }
 
+        // --- Render ---
+        function renderMessages(docs) {
+            const list = document.getElementById('messageList');
+            if (docs.length === 0) {
+                list.innerHTML = `<div class="empty-state"><i class="fas fa-comments"></i>No messages yet. Be the first to post!</div>`;
+                return;
+            }
+            list.innerHTML = docs.map(doc => {
+                const m = doc.data();
+                const eventDate = m.eventDate
+                    ? `<div class="event-date-badge"><i class="fas fa-calendar-day me-1"></i>${esc(m.eventDate)}</div>`
+                    : '';
+                const actions = currentUser
+                    ? `<div class="message-actions visible">
+                           <button class="btn-action btn-edit" onclick="startEdit('${doc.id}')" title="Edit">
+                               <i class="fas fa-pencil"></i>
+                           </button>
+                           <button class="btn-action btn-delete" onclick="deleteMessage('${doc.id}')" title="Delete">
+                               <i class="fas fa-times"></i>
+                           </button>
+                       </div>`
+                    : '';
+                return `
+                <div class="message-card card-${esc(m.category)}" id="card-${doc.id}">
+                    <div class="message-meta">
+                        <span class="message-author"><i class="fas fa-user-circle me-1"></i>${esc(m.name)}</span>
+                        <span class="message-category cat-${esc(m.category)}">${catLabel(m.category)}</span>
+                        <span class="message-date">${formatDate(m.ts)}</span>
+                        ${actions}
+                    </div>
+                    <div class="message-text" id="text-${doc.id}">${esc(m.text)}</div>
+                    <div class="edit-area" id="edit-${doc.id}">
+                        <textarea class="edit-textarea" id="editInput-${doc.id}">${esc(m.text)}</textarea>
+                        <div class="edit-buttons">
+                            <button class="btn-save" onclick="saveEdit('${doc.id}')"><i class="fas fa-check me-1"></i>Save</button>
+                            <button class="btn-cancel-edit" onclick="cancelEdit('${doc.id}')">Cancel</button>
+                        </div>
+                    </div>
+                    ${eventDate}
+                </div>`;
+            }).join('');
+        }
+
+        // --- Edit ---
+        function startEdit(id) {
+            document.getElementById('text-' + id).style.display = 'none';
+            document.getElementById('edit-' + id).style.display = 'block';
+            document.getElementById('editInput-' + id).focus();
+        }
+
+        function cancelEdit(id) {
+            document.getElementById('text-' + id).style.display = 'block';
+            document.getElementById('edit-' + id).style.display = 'none';
+        }
+
+        async function saveEdit(id) {
+            const newText = document.getElementById('editInput-' + id).value.trim();
+            if (!newText) return;
+            try {
+                await messagesRef.doc(id).update({ text: newText });
+            } catch (err) {
+                alert('Could not save: ' + err.message);
+            }
+        }
+
+        // --- Post ---
         function toggleForm() {
             const panel = document.getElementById('formPanel');
             const icon  = document.getElementById('newMsgIcon');
@@ -411,44 +581,13 @@
             document.getElementById('eventDateRow').style.display = cat === 'event' ? 'block' : 'none';
         }
 
-        function renderMessages(docs) {
-            const list = document.getElementById('messageList');
-            if (docs.length === 0) {
-                list.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-comments"></i>
-                        No messages yet. Be the first to post!
-                    </div>`;
-                return;
-            }
-            list.innerHTML = docs.map(doc => {
-                const m = doc.data();
-                const eventDate = m.eventDate
-                    ? `<div class="event-date-badge"><i class="fas fa-calendar-day"></i>${esc(m.eventDate)}</div>`
-                    : '';
-                return `
-                <div class="message-card card-${esc(m.category)}">
-                    <div class="message-meta">
-                        <span class="message-author"><i class="fas fa-user-circle me-1"></i>${esc(m.name)}</span>
-                        <span class="message-category cat-${esc(m.category)}">${catLabel(m.category)}</span>
-                        <span class="message-date">${formatDate(m.ts)}</span>
-                        <button class="btn-delete" onclick="deleteMessage('${doc.id}')" title="Delete">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    <div class="message-text">${esc(m.text)}</div>
-                    ${eventDate}
-                </div>`;
-            }).join('');
-        }
-
         async function postMessage() {
-            const name     = document.getElementById('inputName').value.trim();
-            const category = document.getElementById('inputCategory').value;
-            const text     = document.getElementById('inputMessage').value.trim();
+            const name      = document.getElementById('inputName').value.trim();
+            const category  = document.getElementById('inputCategory').value;
+            const text      = document.getElementById('inputMessage').value.trim();
             const eventDate = category === 'event' ? document.getElementById('inputEventDate').value : null;
-            const errEl    = document.getElementById('postError');
-            const btn      = document.getElementById('btnPost');
+            const errEl     = document.getElementById('postError');
+            const btn       = document.getElementById('btnPost');
 
             if (!name || !text) {
                 errEl.textContent = 'Please fill in your name and message.';
@@ -483,6 +622,7 @@
         }
 
         async function deleteMessage(id) {
+            if (!confirm('Delete this message?')) return;
             try {
                 await messagesRef.doc(id).delete();
             } catch (err) {
@@ -490,9 +630,75 @@
             }
         }
 
-        function catLabel(cat) {
-            return cat.charAt(0).toUpperCase() + cat.slice(1);
+        // --- Login Modal ---
+        let isRegisterMode = false;
+
+        function openLoginModal() {
+            document.getElementById('loginModal').style.display = 'flex';
         }
+
+        function closeLoginModal() {
+            document.getElementById('loginModal').style.display = 'none';
+            document.getElementById('authEmail').value = '';
+            document.getElementById('authPassword').value = '';
+            document.getElementById('authError').style.display = 'none';
+        }
+
+        function toggleAuthMode() {
+            isRegisterMode = !isRegisterMode;
+            document.getElementById('modalTitle').textContent  = isRegisterMode ? 'Create Account' : 'Sign In';
+            document.getElementById('btnAuth').innerHTML       = isRegisterMode
+                ? '<i class="fas fa-user-plus me-2"></i>Create Account'
+                : '<i class="fas fa-sign-in-alt me-2"></i>Sign In';
+            document.getElementById('toggleText').textContent = isRegisterMode ? 'Already have an account?' : "Don't have an account?";
+            document.getElementById('toggleLink').textContent = isRegisterMode ? 'Sign in' : 'Create one';
+            document.getElementById('authError').style.display = 'none';
+        }
+
+        async function submitAuth() {
+            const email    = document.getElementById('authEmail').value.trim();
+            const password = document.getElementById('authPassword').value;
+            const errEl    = document.getElementById('authError');
+            const btn      = document.getElementById('btnAuth');
+
+            if (!email || !password) {
+                errEl.textContent = 'Please enter your email and password.';
+                errEl.style.display = 'block';
+                return;
+            }
+            btn.disabled = true;
+            errEl.style.display = 'none';
+
+            try {
+                if (isRegisterMode) {
+                    await auth.createUserWithEmailAndPassword(email, password);
+                } else {
+                    await auth.signInWithEmailAndPassword(email, password);
+                }
+            } catch (err) {
+                errEl.textContent = friendlyError(err.code);
+                errEl.style.display = 'block';
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        function logout() { auth.signOut(); }
+
+        function friendlyError(code) {
+            const map = {
+                'auth/user-not-found':       'No account found with that email.',
+                'auth/wrong-password':       'Incorrect password.',
+                'auth/email-already-in-use': 'An account with this email already exists.',
+                'auth/weak-password':        'Password must be at least 6 characters.',
+                'auth/invalid-email':        'Please enter a valid email address.',
+                'auth/invalid-credential':   'Invalid email or password.',
+            };
+            return map[code] || 'Something went wrong. Please try again.';
+        }
+
+        // --- Helpers ---
+        function catLabel(cat) { return cat.charAt(0).toUpperCase() + cat.slice(1); }
 
         function formatDate(ts) {
             if (!ts) return '';
@@ -503,10 +709,8 @@
 
         function esc(str) {
             return String(str)
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;');
+                .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+                .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
         }
     </script>
 </body>

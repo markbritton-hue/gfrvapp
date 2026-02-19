@@ -13,8 +13,66 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
+        .top-nav {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 20px 0 0;
+            margin-bottom: 0;
+        }
+
+        .btn-login {
+            background: none;
+            border: 1px solid rgba(255,255,255,0.25);
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 8px 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            transition: all 0.2s;
+        }
+
+        .btn-login:hover {
+            border-color: #60a5fa;
+            color: #60a5fa;
+            background: rgba(96,165,250,0.08);
+        }
+
+        .btn-logout {
+            background: none;
+            border: 1px solid rgba(239,68,68,0.4);
+            color: rgba(239,68,68,0.8);
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-logout:hover {
+            border-color: #ef4444;
+            color: #ef4444;
+            background: rgba(239,68,68,0.08);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-email {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.82rem;
+        }
+
         .hero {
-            padding-top: 80px;
+            padding-top: 60px;
             padding-bottom: 60px;
             text-align: center;
         }
@@ -59,10 +117,7 @@
             border-color: #60a5fa;
         }
 
-        .feature-icon {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-        }
+        .feature-icon { font-size: 3.5rem; margin-bottom: 20px; }
 
         .feature-card h2 {
             color: #60a5fa;
@@ -77,69 +132,31 @@
         }
 
         .btn-messages {
-            background: #60a5fa;
-            border: none;
-            font-weight: 600;
-            padding: 12px 30px;
-            border-radius: 25px;
-            color: white;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.2s;
-            box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
+            background: #60a5fa; border: none; font-weight: 600; padding: 12px 30px;
+            border-radius: 25px; color: white; text-decoration: none; display: inline-block;
+            transition: all 0.2s; box-shadow: 0 4px 12px rgba(96,165,250,0.3);
         }
-
-        .btn-messages:hover {
-            background: #3b82f6;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(96, 165, 250, 0.4);
-            color: white;
-        }
+        .btn-messages:hover { background: #3b82f6; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(96,165,250,0.4); color: white; }
 
         .btn-classifieds {
-            background: #f59e0b;
-            border: none;
-            font-weight: 600;
-            padding: 12px 30px;
-            border-radius: 25px;
-            color: white;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.2s;
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+            background: #f59e0b; border: none; font-weight: 600; padding: 12px 30px;
+            border-radius: 25px; color: white; text-decoration: none; display: inline-block;
+            transition: all 0.2s; box-shadow: 0 4px 12px rgba(245,158,11,0.3);
         }
-
-        .btn-classifieds:hover {
-            background: #d97706;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(245, 158, 11, 0.4);
-            color: white;
-        }
+        .btn-classifieds:hover { background: #d97706; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(245,158,11,0.4); color: white; }
 
         .btn-residents {
-            background: #10b981;
-            border: none;
-            font-weight: 600;
-            padding: 12px 30px;
-            border-radius: 25px;
-            color: white;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.2s;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            background: #10b981; border: none; font-weight: 600; padding: 12px 30px;
+            border-radius: 25px; color: white; text-decoration: none; display: inline-block;
+            transition: all 0.2s; box-shadow: 0 4px 12px rgba(16,185,129,0.3);
         }
+        .btn-residents:hover { background: #059669; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(16,185,129,0.4); color: white; }
 
-        .btn-residents:hover {
-            background: #059669;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
-            color: white;
-        }
-
+        /* Emergency */
         .emergency-banner {
             display: none;
-            background: rgba(239, 68, 68, 0.15);
-            border: 2px solid rgba(239, 68, 68, 0.7);
+            background: rgba(239,68,68,0.15);
+            border: 2px solid rgba(239,68,68,0.7);
             border-radius: 15px;
             padding: 20px 25px;
             margin-bottom: 35px;
@@ -147,149 +164,149 @@
         }
 
         .emergency-banner-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #ef4444;
-            font-size: 1rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 12px;
+            display: flex; align-items: center; gap: 10px;
+            color: #ef4444; font-size: 1rem; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px;
         }
 
-        .emergency-banner-header i {
-            font-size: 1.2rem;
-            animation: pulse 1.2s infinite;
-        }
+        .emergency-banner-header i { animation: pulse 1.2s infinite; }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50%       { opacity: 0.4; }
-        }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
 
-        .emergency-item {
-            border-top: 1px solid rgba(239, 68, 68, 0.25);
-            padding: 10px 0 4px;
-        }
-
-        .emergency-item-name {
-            color: rgba(255,255,255,0.5);
-            font-size: 0.8rem;
-            margin-bottom: 3px;
-        }
-
-        .emergency-item-text {
-            color: rgba(255,255,255,0.9);
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-
+        .emergency-item { border-top: 1px solid rgba(239,68,68,0.25); padding: 10px 0 4px; }
+        .emergency-item-name { color: rgba(255,255,255,0.5); font-size: 0.8rem; margin-bottom: 3px; }
+        .emergency-item-text { color: rgba(255,255,255,0.9); font-size: 0.95rem; line-height: 1.6; }
         .emergency-link {
-            color: #ef4444;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            margin-top: 12px;
+            color: #ef4444; font-size: 0.85rem; font-weight: 600; text-decoration: none;
+            display: inline-flex; align-items: center; gap: 5px; margin-top: 12px;
         }
-
         .emergency-link:hover { color: #fca5a5; }
 
-        /* Emergency Modal */
+        /* Login Modal */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.75); z-index: 9999;
+            align-items: center; justify-content: center; padding: 20px;
+        }
+
+        .login-modal {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 1px solid rgba(96,165,250,0.3);
+            border-radius: 20px; padding: 40px;
+            max-width: 420px; width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+        }
+
+        .login-modal h2 {
+            font-size: 1.6rem; font-weight: 800;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 25px; text-align: center;
+        }
+
+        .modal-form-label {
+            color: rgba(255,255,255,0.6); font-size: 0.82rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; display: block;
+        }
+
+        .modal-input {
+            background: rgba(15,23,42,0.7); border: 2px solid rgba(96,165,250,0.3);
+            color: white; border-radius: 8px; padding: 12px; width: 100%;
+            font-size: 0.95rem; margin-bottom: 16px; outline: none; box-sizing: border-box;
+        }
+
+        .modal-input:focus { border-color: #60a5fa; box-shadow: 0 0 0 3px rgba(96,165,250,0.2); }
+        .modal-input::placeholder { color: rgba(255,255,255,0.3); }
+
+        .btn-auth {
+            background: #60a5fa; border: none; color: white; font-weight: 700;
+            padding: 13px; border-radius: 25px; width: 100%; font-size: 1rem;
+            cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 12px rgba(96,165,250,0.3);
+            margin-bottom: 14px;
+        }
+
+        .btn-auth:hover { background: #3b82f6; transform: translateY(-2px); }
+        .btn-auth:disabled { opacity: 0.6; transform: none; cursor: not-allowed; }
+
+        .auth-toggle {
+            text-align: center; color: rgba(255,255,255,0.45); font-size: 0.88rem;
+        }
+
+        .auth-toggle a {
+            color: #60a5fa; text-decoration: none; font-weight: 600; cursor: pointer;
+        }
+
+        .auth-error {
+            color: #ef4444; font-size: 0.88rem; margin-bottom: 12px; display: none;
+            background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3);
+            border-radius: 8px; padding: 10px;
+        }
+
+        .btn-close-modal {
+            background: none; border: none; color: rgba(255,255,255,0.3);
+            position: absolute; top: 15px; right: 20px; font-size: 1.2rem; cursor: pointer;
+        }
+
+        .btn-close-modal:hover { color: white; }
+
+        /* Emergency Popup Modal */
         .emergency-modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.8);
-            z-index: 9999;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.8); z-index: 9999;
+            align-items: center; justify-content: center; padding: 20px;
         }
 
         .emergency-modal {
             background: linear-gradient(135deg, #1e293b, #0f172a);
-            border: 2px solid rgba(239, 68, 68, 0.7);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 500px;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(239, 68, 68, 0.3);
+            border: 2px solid rgba(239,68,68,0.7);
+            border-radius: 20px; padding: 40px; max-width: 500px; width: 100%;
+            text-align: center; box-shadow: 0 20px 60px rgba(239,68,68,0.3);
         }
 
-        .emergency-modal-icon {
-            font-size: 3.5rem;
-            color: #ef4444;
-            margin-bottom: 15px;
-            animation: pulse 1.2s infinite;
-        }
-
-        .emergency-modal h2 {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: #ef4444;
-            margin-bottom: 20px;
-        }
-
-        .emergency-modal-messages {
-            text-align: left;
-            margin-bottom: 25px;
-        }
+        .emergency-modal-icon { font-size: 3.5rem; color: #ef4444; margin-bottom: 15px; animation: pulse 1.2s infinite; }
+        .emergency-modal h2 { font-size: 1.8rem; font-weight: 800; color: #ef4444; margin-bottom: 20px; }
+        .emergency-modal-messages { text-align: left; margin-bottom: 25px; }
 
         .emergency-modal-item {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            border-radius: 10px;
-            padding: 14px;
-            margin-bottom: 10px;
+            background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3);
+            border-radius: 10px; padding: 14px; margin-bottom: 10px;
         }
 
-        .emergency-modal-item-name {
-            color: rgba(255,255,255,0.5);
-            font-size: 0.8rem;
-            margin-bottom: 4px;
-        }
-
-        .emergency-modal-item-text {
-            color: rgba(255,255,255,0.9);
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
+        .emergency-modal-item-name { color: rgba(255,255,255,0.5); font-size: 0.8rem; margin-bottom: 4px; }
+        .emergency-modal-item-text { color: rgba(255,255,255,0.9); font-size: 0.95rem; line-height: 1.6; }
 
         .btn-dismiss {
-            background: #ef4444;
-            border: none;
-            color: white;
-            font-weight: 700;
-            padding: 12px 32px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.2s;
-            box-shadow: 0 4px 15px rgba(239,68,68,0.4);
+            background: #ef4444; border: none; color: white; font-weight: 700;
+            padding: 12px 32px; border-radius: 25px; cursor: pointer; font-size: 1rem;
+            transition: all 0.2s; box-shadow: 0 4px 15px rgba(239,68,68,0.4);
         }
 
-        .btn-dismiss:hover {
-            background: #dc2626;
-            transform: translateY(-2px);
-        }
+        .btn-dismiss:hover { background: #dc2626; transform: translateY(-2px); }
 
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.5rem; }
-            .emergency-modal { padding: 25px; }
+            .login-modal { padding: 25px; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="hero">
-            <div class="hero-icon">
-                <i class="fas fa-house-chimney"></i>
+
+        <!-- Top Nav -->
+        <div class="top-nav">
+            <div id="authLoggedOut">
+                <button class="btn-login" onclick="openLoginModal()">
+                    <i class="fas fa-user"></i> Login
+                </button>
             </div>
+            <div id="authLoggedIn" class="user-info" style="display:none;">
+                <span class="user-email" id="navUserEmail"></span>
+                <button class="btn-logout" onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <div class="hero">
+            <div class="hero-icon"><i class="fas fa-house-chimney"></i></div>
             <h1>GFRV Park</h1>
             <p>Your community hub — stay connected with neighbors</p>
 
@@ -307,9 +324,7 @@
             <div class="row g-4 mb-5 justify-content-center">
                 <div class="col-lg-4 col-md-6">
                     <div class="feature-card" onclick="window.location.href='messages.html'">
-                        <div class="feature-icon">
-                            <i class="fas fa-comments" style="color: #60a5fa;"></i>
-                        </div>
+                        <div class="feature-icon"><i class="fas fa-comments" style="color:#60a5fa;"></i></div>
                         <h2>Messages</h2>
                         <p>Community announcements and neighborhood discussions</p>
                         <a href="messages.html" class="btn-messages">
@@ -320,9 +335,7 @@
 
                 <div class="col-lg-4 col-md-6">
                     <div class="feature-card" onclick="window.location.href='classifieds.html'">
-                        <div class="feature-icon">
-                            <i class="fas fa-tag" style="color: #f59e0b;"></i>
-                        </div>
+                        <div class="feature-icon"><i class="fas fa-tag" style="color:#f59e0b;"></i></div>
                         <h2>Classifieds</h2>
                         <p>Buy, sell, and trade with your neighbors</p>
                         <a href="classifieds.html" class="btn-classifieds">
@@ -333,9 +346,7 @@
 
                 <div class="col-lg-4 col-md-6">
                     <div class="feature-card" onclick="window.location.href='residents.html'">
-                        <div class="feature-icon">
-                            <i class="fas fa-users" style="color: #10b981;"></i>
-                        </div>
+                        <div class="feature-icon"><i class="fas fa-users" style="color:#10b981;"></i></div>
                         <h2>Residents</h2>
                         <p>Directory and profiles for community members</p>
                         <a href="residents.html" class="btn-residents">
@@ -347,20 +358,39 @@
         </div>
     </div>
 
-    <!-- Emergency Modal -->
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal-overlay" style="position:fixed;">
+        <div class="login-modal" style="position:relative;">
+            <button class="btn-close-modal" onclick="closeLoginModal()"><i class="fas fa-times"></i></button>
+            <h2 id="modalTitle">Sign In</h2>
+            <div id="authError" class="auth-error"></div>
+            <label class="modal-form-label">Email</label>
+            <input type="email" id="authEmail" class="modal-input" placeholder="you@email.com">
+            <label class="modal-form-label">Password</label>
+            <input type="password" id="authPassword" class="modal-input" placeholder="••••••••">
+            <button id="btnAuth" class="btn-auth" onclick="submitAuth()">
+                <i class="fas fa-sign-in-alt me-2"></i>Sign In
+            </button>
+            <div class="auth-toggle">
+                <span id="toggleText">Don't have an account?</span>
+                <a onclick="toggleAuthMode()"> <span id="toggleLink">Create one</span></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Emergency Popup Modal -->
     <div id="emergencyModal" class="emergency-modal-overlay">
         <div class="emergency-modal">
-            <div class="emergency-modal-icon">
-                <i class="fas fa-triangle-exclamation"></i>
-            </div>
+            <div class="emergency-modal-icon"><i class="fas fa-triangle-exclamation"></i></div>
             <h2>Emergency Alert</h2>
             <div id="emergencyModalMessages" class="emergency-modal-messages"></div>
-            <button class="btn-dismiss" onclick="dismissModal()">I Understand</button>
+            <button class="btn-dismiss" onclick="dismissEmergency()">I Understand</button>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script>
         const firebaseConfig = {
@@ -373,59 +403,134 @@
         };
 
         firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+        const auth = firebase.auth();
+        const db   = firebase.firestore();
 
-        let modalShown = false;
+        // --- Auth state ---
+        auth.onAuthStateChanged(user => {
+            document.getElementById('authLoggedOut').style.display = user ? 'none' : 'block';
+            document.getElementById('authLoggedIn').style.display  = user ? 'flex' : 'none';
+            if (user) {
+                document.getElementById('navUserEmail').textContent = user.email;
+                closeLoginModal();
+            }
+        });
 
-        db.collection('messages')
-            .where('category', '==', 'emergency')
-            .onSnapshot(snapshot => {
-                const docs = snapshot.docs;
-                const banner  = document.getElementById('emergencyBanner');
-                const bannerItems = document.getElementById('emergencyBannerItems');
-                const modalMessages = document.getElementById('emergencyModalMessages');
+        // --- Login modal ---
+        let isRegisterMode = false;
 
-                if (docs.length === 0) {
-                    banner.style.display = 'none';
-                    return;
+        function openLoginModal() {
+            document.getElementById('loginModal').style.display = 'flex';
+            document.getElementById('authError').style.display = 'none';
+        }
+
+        function closeLoginModal() {
+            document.getElementById('loginModal').style.display = 'none';
+            document.getElementById('authEmail').value = '';
+            document.getElementById('authPassword').value = '';
+            document.getElementById('authError').style.display = 'none';
+        }
+
+        function toggleAuthMode() {
+            isRegisterMode = !isRegisterMode;
+            document.getElementById('modalTitle').textContent   = isRegisterMode ? 'Create Account' : 'Sign In';
+            document.getElementById('btnAuth').innerHTML        = isRegisterMode
+                ? '<i class="fas fa-user-plus me-2"></i>Create Account'
+                : '<i class="fas fa-sign-in-alt me-2"></i>Sign In';
+            document.getElementById('toggleText').textContent  = isRegisterMode ? 'Already have an account?' : "Don't have an account?";
+            document.getElementById('toggleLink').textContent  = isRegisterMode ? 'Sign in' : 'Create one';
+            document.getElementById('authError').style.display = 'none';
+        }
+
+        async function submitAuth() {
+            const email    = document.getElementById('authEmail').value.trim();
+            const password = document.getElementById('authPassword').value;
+            const errEl    = document.getElementById('authError');
+            const btn      = document.getElementById('btnAuth');
+
+            if (!email || !password) {
+                errEl.textContent = 'Please enter your email and password.';
+                errEl.style.display = 'block';
+                return;
+            }
+
+            btn.disabled = true;
+            errEl.style.display = 'none';
+
+            try {
+                if (isRegisterMode) {
+                    await auth.createUserWithEmailAndPassword(email, password);
+                } else {
+                    await auth.signInWithEmailAndPassword(email, password);
                 }
+            } catch (err) {
+                errEl.textContent = friendlyError(err.code);
+                errEl.style.display = 'block';
+            } finally {
+                btn.disabled = false;
+            }
+        }
 
-                // Render banner items
-                bannerItems.innerHTML = docs.map(doc => {
+        function logout() {
+            auth.signOut();
+        }
+
+        function friendlyError(code) {
+            const map = {
+                'auth/user-not-found':     'No account found with that email.',
+                'auth/wrong-password':     'Incorrect password.',
+                'auth/email-already-in-use': 'An account with this email already exists.',
+                'auth/weak-password':      'Password must be at least 6 characters.',
+                'auth/invalid-email':      'Please enter a valid email address.',
+                'auth/invalid-credential': 'Invalid email or password.',
+            };
+            return map[code] || 'Something went wrong. Please try again.';
+        }
+
+        // --- Emergency alerts ---
+        let emergencyShown = false;
+
+        db.collection('messages').where('category', '==', 'emergency').onSnapshot(snapshot => {
+            const docs = snapshot.docs;
+            const banner      = document.getElementById('emergencyBanner');
+            const bannerItems = document.getElementById('emergencyBannerItems');
+            const modalMsgs   = document.getElementById('emergencyModalMessages');
+
+            if (docs.length === 0) {
+                banner.style.display = 'none';
+                return;
+            }
+
+            bannerItems.innerHTML = docs.map(doc => {
+                const m = doc.data();
+                return `<div class="emergency-item">
+                    <div class="emergency-item-name"><i class="fas fa-user-circle me-1"></i>${esc(m.name)}</div>
+                    <div class="emergency-item-text">${esc(m.text)}</div>
+                </div>`;
+            }).join('');
+            banner.style.display = 'block';
+
+            if (!emergencyShown) {
+                modalMsgs.innerHTML = docs.slice(0, 3).map(doc => {
                     const m = doc.data();
-                    return `
-                    <div class="emergency-item">
-                        <div class="emergency-item-name"><i class="fas fa-user-circle me-1"></i>${esc(m.name)}</div>
-                        <div class="emergency-item-text">${esc(m.text)}</div>
+                    return `<div class="emergency-modal-item">
+                        <div class="emergency-modal-item-name"><i class="fas fa-user-circle me-1"></i>${esc(m.name)}</div>
+                        <div class="emergency-modal-item-text">${esc(m.text)}</div>
                     </div>`;
                 }).join('');
-                banner.style.display = 'block';
+                document.getElementById('emergencyModal').style.display = 'flex';
+                emergencyShown = true;
+            }
+        });
 
-                // Show modal once per page load
-                if (!modalShown) {
-                    modalMessages.innerHTML = docs.slice(0, 3).map(doc => {
-                        const m = doc.data();
-                        return `
-                        <div class="emergency-modal-item">
-                            <div class="emergency-modal-item-name"><i class="fas fa-user-circle me-1"></i>${esc(m.name)}</div>
-                            <div class="emergency-modal-item-text">${esc(m.text)}</div>
-                        </div>`;
-                    }).join('');
-                    document.getElementById('emergencyModal').style.display = 'flex';
-                    modalShown = true;
-                }
-            });
-
-        function dismissModal() {
+        function dismissEmergency() {
             document.getElementById('emergencyModal').style.display = 'none';
         }
 
         function esc(str) {
             return String(str)
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;');
+                .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+                .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
         }
     </script>
 </body>
