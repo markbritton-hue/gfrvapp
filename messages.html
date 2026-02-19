@@ -224,38 +224,43 @@
         .btn-delete { color: rgba(255,255,255,0.25); }
         .btn-delete:hover { color: #ef4444; }
 
-        /* Inline edit */
-        .edit-area {
-            display: none;
-            margin-top: 10px;
+        /* Edit Modal */
+        .edit-modal-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.75); z-index: 9998;
+            align-items: center; justify-content: center; padding: 20px;
         }
 
-        .edit-textarea {
-            background: rgba(15,23,42,0.7);
-            border: 2px solid rgba(96,165,250,0.4);
-            color: white; border-radius: 8px; padding: 10px;
-            width: 100%; resize: vertical; min-height: 80px;
-            font-family: inherit; font-size: 0.95rem; line-height: 1.7;
+        .edit-modal {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 1px solid rgba(96,165,250,0.35);
+            border-radius: 20px; padding: 35px;
+            max-width: 520px; width: 100%; position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+            max-height: 90vh; overflow-y: auto;
         }
 
-        .edit-textarea:focus {
-            outline: none;
-            border-color: #60a5fa;
-            box-shadow: 0 0 0 3px rgba(96,165,250,0.2);
+        .edit-modal h3 {
+            font-size: 1.3rem; font-weight: 800;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 24px;
         }
-
-        .edit-buttons { display: flex; gap: 8px; margin-top: 8px; }
 
         .btn-save {
-            background: #60a5fa; border: none; color: white; font-weight: 600;
-            padding: 7px 18px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;
+            background: #60a5fa; border: none; color: white; font-weight: 700;
+            padding: 12px 30px; border-radius: 25px; font-size: 0.95rem;
+            cursor: pointer; transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(96,165,250,0.3);
         }
 
-        .btn-save:hover { background: #3b82f6; }
+        .btn-save:hover { background: #3b82f6; transform: translateY(-2px); }
+        .btn-save:disabled { opacity: 0.6; transform: none; cursor: not-allowed; }
 
         .btn-cancel-edit {
             background: none; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.5);
-            font-weight: 600; padding: 7px 18px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;
+            font-weight: 600; padding: 12px 24px; border-radius: 25px; font-size: 0.95rem;
+            cursor: pointer; transition: all 0.2s;
         }
 
         .btn-cancel-edit:hover { border-color: rgba(255,255,255,0.4); color: rgba(255,255,255,0.8); }
@@ -428,6 +433,43 @@
 
     </div>
 
+    <!-- Edit Message Modal -->
+    <div id="editModal" class="edit-modal-overlay">
+        <div class="edit-modal">
+            <button class="btn-close-modal" onclick="closeEditModal()"><i class="fas fa-times"></i></button>
+            <h3><i class="fas fa-pencil me-2"></i>Edit Message</h3>
+            <div class="mb-3">
+                <label class="form-label">Name</label>
+                <input type="text" id="editName" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Category</label>
+                <select id="editCategory" class="form-select" onchange="onEditCategoryChange()">
+                    <option value="general">General</option>
+                    <option value="announcement">Announcement</option>
+                    <option value="question">Question</option>
+                    <option value="event">Event</option>
+                    <option value="emergency">Emergency</option>
+                </select>
+            </div>
+            <div id="editDateRow" class="mb-3" style="display:none;">
+                <label class="form-label">Event Date</label>
+                <input type="date" id="editEventDate" class="form-control">
+            </div>
+            <div class="mb-4">
+                <label class="form-label">Message</label>
+                <textarea id="editText" class="form-control" rows="5"></textarea>
+            </div>
+            <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                <button id="btnSaveEdit" class="btn-save" onclick="saveEdit()">
+                    <i class="fas fa-check me-2"></i>Save Changes
+                </button>
+                <button class="btn-cancel-edit" onclick="closeEditModal()">Cancel</button>
+            </div>
+            <div id="editError" class="error-msg"></div>
+        </div>
+    </div>
+
     <!-- Login Modal -->
     <div id="loginModal" class="modal-overlay">
         <div class="login-modal">
@@ -531,38 +573,76 @@
                         <span class="message-date">${formatDate(m.ts)}</span>
                         ${actions}
                     </div>
-                    <div class="message-text" id="text-${doc.id}">${esc(m.text)}</div>
-                    <div class="edit-area" id="edit-${doc.id}">
-                        <textarea class="edit-textarea" id="editInput-${doc.id}">${esc(m.text)}</textarea>
-                        <div class="edit-buttons">
-                            <button class="btn-save" onclick="event.stopPropagation(); saveEdit('${doc.id}')"><i class="fas fa-check me-1"></i>Save</button>
-                            <button class="btn-cancel-edit" onclick="event.stopPropagation(); cancelEdit('${doc.id}')">Cancel</button>
-                        </div>
-                    </div>
+                    <div class="message-text">${esc(m.text)}</div>
                     ${eventDate}
                 </div>`;
             }).join('');
         }
 
-        // --- Edit ---
+        // --- Edit Modal ---
+        let editingId = null;
+
         function startEdit(id) {
-            document.getElementById('text-' + id).style.display = 'none';
-            document.getElementById('edit-' + id).style.display = 'block';
-            document.getElementById('editInput-' + id).focus();
+            const doc = lastDocs.find(d => d.id === id);
+            if (!doc) return;
+            const m = doc.data();
+            editingId = id;
+
+            document.getElementById('editName').value      = m.name || '';
+            document.getElementById('editCategory').value  = m.category || 'general';
+            document.getElementById('editText').value      = m.text || '';
+            document.getElementById('editEventDate').value = m.eventDate || '';
+            document.getElementById('editError').style.display = 'none';
+            onEditCategoryChange();
+
+            document.getElementById('editModal').style.display = 'flex';
         }
 
-        function cancelEdit(id) {
-            document.getElementById('text-' + id).style.display = 'block';
-            document.getElementById('edit-' + id).style.display = 'none';
+        function closeEditModal() {
+            document.getElementById('editModal').style.display = 'none';
+            editingId = null;
         }
 
-        async function saveEdit(id) {
-            const newText = document.getElementById('editInput-' + id).value.trim();
-            if (!newText) return;
+        function onEditCategoryChange() {
+            const cat = document.getElementById('editCategory').value;
+            document.getElementById('editDateRow').style.display = cat === 'event' ? 'block' : 'none';
+        }
+
+        async function saveEdit() {
+            if (!editingId) return;
+            const name      = document.getElementById('editName').value.trim();
+            const category  = document.getElementById('editCategory').value;
+            const text      = document.getElementById('editText').value.trim();
+            const eventDate = category === 'event' ? document.getElementById('editEventDate').value : null;
+            const errEl     = document.getElementById('editError');
+            const btn       = document.getElementById('btnSaveEdit');
+
+            if (!name || !text) {
+                errEl.textContent = 'Name and message are required.';
+                errEl.style.display = 'block';
+                return;
+            }
+            if (category === 'event' && !eventDate) {
+                errEl.textContent = 'Please select a date for the event.';
+                errEl.style.display = 'block';
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin me-2"></i>Saving...';
+            errEl.style.display = 'none';
+
             try {
-                await messagesRef.doc(id).update({ text: newText });
+                const payload = { name, category, text };
+                payload.eventDate = eventDate || firebase.firestore.FieldValue.delete();
+                await messagesRef.doc(editingId).update(payload);
+                closeEditModal();
             } catch (err) {
-                alert('Could not save: ' + err.message);
+                errEl.textContent = 'Could not save: ' + err.message;
+                errEl.style.display = 'block';
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-check me-2"></i>Save Changes';
             }
         }
 
