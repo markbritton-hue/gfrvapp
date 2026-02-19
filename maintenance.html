@@ -414,6 +414,9 @@
                         <button class="btn-reject" onclick="setStatus('${doc.id}', 'rejected')">
                             <i class="fas fa-times me-1"></i>Reject
                         </button>
+                        <button class="btn-reject" onclick="deleteListing('${doc.id}')">
+                            <i class="fas fa-trash me-1"></i>Delete
+                        </button>
                     </div>
                 </div>`;
             }).join('');
