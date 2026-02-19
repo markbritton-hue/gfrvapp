@@ -283,6 +283,34 @@
 
         .btn-dismiss:hover { background: #dc2626; transform: translateY(-2px); }
 
+        /* Today's Events Banner */
+        .events-banner {
+            display: none;
+            background: rgba(167,139,250,0.1);
+            border: 2px solid rgba(167,139,250,0.5);
+            border-radius: 15px;
+            padding: 20px 25px;
+            margin-bottom: 35px;
+            text-align: left;
+        }
+
+        .events-banner-header {
+            display: flex; align-items: center; gap: 10px;
+            color: #a78bfa; font-size: 1rem; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px;
+        }
+
+        .event-item { border-top: 1px solid rgba(167,139,250,0.2); padding: 10px 0 4px; }
+        .event-item-name { color: rgba(255,255,255,0.5); font-size: 0.8rem; margin-bottom: 3px; }
+        .event-item-text { color: rgba(255,255,255,0.9); font-size: 0.95rem; line-height: 1.6; }
+
+        .events-link {
+            color: #a78bfa; font-size: 0.85rem; font-weight: 600; text-decoration: none;
+            display: inline-flex; align-items: center; gap: 5px; margin-top: 12px;
+        }
+
+        .events-link:hover { color: #c4b5fd; }
+
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.5rem; }
             .login-modal { padding: 25px; }
@@ -317,6 +345,17 @@
                 </div>
                 <div id="emergencyBannerItems"></div>
                 <a href="messages.html" class="emergency-link">
+                    <i class="fas fa-arrow-right"></i> View all messages
+                </a>
+            </div>
+
+            <!-- Today's Events Banner -->
+            <div id="eventsBanner" class="events-banner">
+                <div class="events-banner-header">
+                    <i class="fas fa-calendar-day"></i> Today's Events
+                </div>
+                <div id="eventsBannerItems"></div>
+                <a href="messages.html" class="events-link">
                     <i class="fas fa-arrow-right"></i> View all messages
                 </a>
             </div>
@@ -486,6 +525,32 @@
             };
             return map[code] || 'Something went wrong. Please try again.';
         }
+
+        // --- Today's Events ---
+        const todayStr = new Date().toISOString().slice(0, 10);
+
+        db.collection('messages')
+            .where('category', '==', 'event')
+            .where('eventDate', '==', todayStr)
+            .onSnapshot(snapshot => {
+                const docs = snapshot.docs;
+                const banner = document.getElementById('eventsBanner');
+                const items  = document.getElementById('eventsBannerItems');
+
+                if (docs.length === 0) {
+                    banner.style.display = 'none';
+                    return;
+                }
+
+                items.innerHTML = docs.map(doc => {
+                    const m = doc.data();
+                    return `<div class="event-item">
+                        <div class="event-item-name"><i class="fas fa-user-circle me-1"></i>${esc(m.name)}</div>
+                        <div class="event-item-text">${esc(m.text)}</div>
+                    </div>`;
+                }).join('');
+                banner.style.display = 'block';
+            });
 
         // --- Emergency alerts ---
         let emergencyShown = false;
