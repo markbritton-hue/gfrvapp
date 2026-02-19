@@ -181,6 +181,12 @@
         .cat-event        { background: rgba(167,139,250,0.18);  color: #a78bfa; }
         .cat-emergency    { background: rgba(239,68,68,0.25);    color: #ef4444; }
 
+        .card-general      { background: rgba(255,255,255,0.04);  border-color: rgba(255,255,255,0.12); }
+        .card-announcement { background: rgba(96,165,250,0.08);   border-color: rgba(96,165,250,0.3); }
+        .card-question     { background: rgba(245,158,11,0.08);   border-color: rgba(245,158,11,0.3); }
+        .card-event        { background: rgba(167,139,250,0.08);  border-color: rgba(167,139,250,0.3); }
+        .card-emergency    { background: rgba(239,68,68,0.1);     border-color: rgba(239,68,68,0.4); }
+
         .message-text {
             color: rgba(255, 255, 255, 0.85);
             line-height: 1.75;
@@ -423,7 +429,7 @@
                     ? `<div class="event-date-badge"><i class="fas fa-calendar-day"></i>${esc(m.eventDate)}</div>`
                     : '';
                 return `
-                <div class="message-card">
+                <div class="message-card card-${esc(m.category)}">
                     <div class="message-meta">
                         <span class="message-author"><i class="fas fa-user-circle me-1"></i>${esc(m.name)}</span>
                         <span class="message-category cat-${esc(m.category)}">${catLabel(m.category)}</span>
