@@ -517,13 +517,14 @@
                            <button class="btn-action btn-edit" onclick="startEdit('${doc.id}')" title="Edit">
                                <i class="fas fa-pencil"></i>
                            </button>
-                           <button class="btn-action btn-delete" onclick="deleteMessage('${doc.id}')" title="Delete">
+                           <button class="btn-action btn-delete" onclick="event.stopPropagation(); deleteMessage('${doc.id}')" title="Delete">
                                <i class="fas fa-times"></i>
                            </button>
                        </div>`
                     : '';
+                const clickHandler = currentUser ? `onclick="startEdit('${doc.id}')" style="cursor:pointer;"` : '';
                 return `
-                <div class="message-card card-${esc(m.category)}" id="card-${doc.id}">
+                <div class="message-card card-${esc(m.category)}" id="card-${doc.id}" ${clickHandler}>
                     <div class="message-meta">
                         <span class="message-author"><i class="fas fa-user-circle me-1"></i>${esc(m.name)}</span>
                         <span class="message-category cat-${esc(m.category)}">${catLabel(m.category)}</span>
@@ -534,8 +535,8 @@
                     <div class="edit-area" id="edit-${doc.id}">
                         <textarea class="edit-textarea" id="editInput-${doc.id}">${esc(m.text)}</textarea>
                         <div class="edit-buttons">
-                            <button class="btn-save" onclick="saveEdit('${doc.id}')"><i class="fas fa-check me-1"></i>Save</button>
-                            <button class="btn-cancel-edit" onclick="cancelEdit('${doc.id}')">Cancel</button>
+                            <button class="btn-save" onclick="event.stopPropagation(); saveEdit('${doc.id}')"><i class="fas fa-check me-1"></i>Save</button>
+                            <button class="btn-cancel-edit" onclick="event.stopPropagation(); cancelEdit('${doc.id}')">Cancel</button>
                         </div>
                     </div>
                     ${eventDate}
