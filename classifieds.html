@@ -719,9 +719,10 @@
                 let imageUrl      = currentDoc ? (currentDoc.data().imageUrl || '') : '';
                 if (imageFile) {
                     btn.innerHTML = '<i class="fas fa-circle-notch fa-spin me-2"></i>Uploading photo...';
-                    const storageRef = storage.ref('classifieds/' + Date.now() + '_' + imageFile.name);
-                    const snapshot   = await storageRef.put(imageFile);
-                    imageUrl         = await snapshot.ref.getDownloadURL();
+                    const storageRef  = storage.ref('classifieds/' + Date.now() + '_' + imageFile.name);
+                    const timeout     = new Promise((_, rej) => setTimeout(() => rej(new Error('Upload timed out. Check Firebase Storage rules are set to allow writes.')), 30000));
+                    const snapshot    = await Promise.race([storageRef.put(imageFile), timeout]);
+                    imageUrl          = await snapshot.ref.getDownloadURL();
                 }
                 await listingsRef.doc(editingId).update({ name, title, category, price, desc, contact, imageUrl });
                 closeEditModal();
@@ -771,9 +772,10 @@
                 let imageUrl = '';
                 if (imageFile) {
                     btn.innerHTML = '<i class="fas fa-circle-notch fa-spin me-2"></i>Uploading photo...';
-                    const storageRef = storage.ref('classifieds/' + Date.now() + '_' + imageFile.name);
-                    const snapshot   = await storageRef.put(imageFile);
-                    imageUrl         = await snapshot.ref.getDownloadURL();
+                    const storageRef  = storage.ref('classifieds/' + Date.now() + '_' + imageFile.name);
+                    const timeout     = new Promise((_, rej) => setTimeout(() => rej(new Error('Upload timed out. Check Firebase Storage rules are set to allow writes.')), 30000));
+                    const snapshot    = await Promise.race([storageRef.put(imageFile), timeout]);
+                    imageUrl          = await snapshot.ref.getDownloadURL();
                 }
                 await listingsRef.add({ name, title, category, price, desc, contact, imageUrl, status: 'pending', ts: firebase.firestore.FieldValue.serverTimestamp() });
                 ['inputName','inputTitle','inputPrice','inputDesc','inputContact'].forEach(id => document.getElementById(id).value = '');
