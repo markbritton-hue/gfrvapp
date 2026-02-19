@@ -379,7 +379,6 @@
 
         db.collection('messages')
             .where('category', '==', 'emergency')
-            .orderBy('ts', 'desc')
             .onSnapshot(snapshot => {
                 const docs = snapshot.docs;
                 const banner  = document.getElementById('emergencyBanner');
