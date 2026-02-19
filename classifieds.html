@@ -311,6 +311,13 @@
         .empty-state { text-align: center; padding: 50px 20px; color: rgba(255,255,255,0.3); }
         .empty-state i { font-size: 3rem; margin-bottom: 15px; display: block; }
 
+        .pending-notice {
+            display: none;
+            background: rgba(167,139,250,0.1); border: 1px solid rgba(167,139,250,0.4);
+            border-radius: 10px; padding: 14px 18px; margin-top: 14px;
+            color: #a78bfa; font-size: 0.9rem; font-weight: 600;
+        }
+
         @media (max-width: 768px) {
             .card-panel { padding: 20px; }
             .edit-modal, .login-modal { padding: 25px; }
@@ -326,16 +333,16 @@
                 <i class="fas fa-arrow-left"></i> Back to Home
             </a>
             <div class="nav-right">
+                <button class="btn-new-listing" onclick="toggleForm()">
+                    <i id="newListingIcon" class="fas fa-plus me-2"></i><span id="newListingLabel">Post a Listing</span>
+                </button>
                 <div id="authLoggedOut">
                     <button class="btn-login-small" onclick="openLoginModal()">
-                        <i class="fas fa-user me-1"></i>Login to post
+                        <i class="fas fa-user me-1"></i>Login
                     </button>
                 </div>
                 <div id="authLoggedIn" style="display:none; align-items:center; gap:10px;">
                     <span class="user-email-badge" id="navUserEmail"></span>
-                    <button class="btn-new-listing" onclick="toggleForm()">
-                        <i id="newListingIcon" class="fas fa-plus me-2"></i><span id="newListingLabel">Post a Listing</span>
-                    </button>
                     <button class="btn-logout-small" onclick="logout()">Logout</button>
                 </div>
             </div>
@@ -381,6 +388,9 @@
                 <i class="fas fa-paper-plane me-2"></i>Post Listing
             </button>
             <div id="postError" class="error-msg"></div>
+            <div id="pendingNotice" class="pending-notice">
+                <i class="fas fa-clock me-2"></i>Your listing has been submitted and is pending admin approval.
+            </div>
         </div>
 
         <!-- Listings Board -->
@@ -508,11 +518,15 @@
             if (lastDocs) renderListings(lastDocs);
         });
 
-        // --- Firestore ---
-        listingsRef.orderBy('ts', 'desc').onSnapshot(
+        // --- Firestore (approved only, sorted client-side) ---
+        listingsRef.where('status', '==', 'approved').onSnapshot(
             snapshot => {
                 setStatus(true);
-                lastDocs = snapshot.docs;
+                lastDocs = snapshot.docs.sort((a, b) => {
+                    const ta = a.data().ts, tb = b.data().ts;
+                    if (!ta || !tb) return 0;
+                    return tb.seconds - ta.seconds;
+                });
                 renderListings(lastDocs);
             },
             err => { setStatus(false); console.error(err); }
@@ -697,11 +711,15 @@
             btn.innerHTML = '<i class="fas fa-circle-notch fa-spin me-2"></i>Posting...';
 
             try {
-                await listingsRef.add({ name, title, category, price, desc, contact, ts: firebase.firestore.FieldValue.serverTimestamp() });
+                await listingsRef.add({ name, title, category, price, desc, contact, status: 'pending', ts: firebase.firestore.FieldValue.serverTimestamp() });
                 ['inputName','inputTitle','inputPrice','inputDesc','inputContact'].forEach(id => document.getElementById(id).value = '');
                 document.getElementById('inputCategory').value = 'for-sale';
                 onCategoryChange();
-                toggleForm();
+                document.getElementById('pendingNotice').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('pendingNotice').style.display = 'none';
+                    toggleForm();
+                }, 3000);
             } catch (err) {
                 errEl.textContent = 'Failed to post: ' + err.message;
                 errEl.style.display = 'block';
