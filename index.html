@@ -601,6 +601,11 @@
         // --- Emergency alerts ---
         let emergencyShown = false;
 
+        // If the user manually refreshed (F5), clear the dismiss so popup shows again
+        if (performance.getEntriesByType('navigation')[0]?.type === 'reload') {
+            sessionStorage.removeItem('emergencyDismissed');
+        }
+
         db.collection('messages').where('category', '==', 'emergency').onSnapshot(snapshot => {
             const docs = snapshot.docs;
             const banner      = document.getElementById('emergencyBanner');
@@ -621,8 +626,8 @@
             }).join('');
             banner.style.display = 'block';
 
-            // Show popup once per page load
-            if (!emergencyShown) {
+            // Show popup once per load, unless dismissed this session via navigation (not refresh)
+            if (!emergencyShown && !sessionStorage.getItem('emergencyDismissed')) {
                 modalMsgs.innerHTML = docs.slice(0, 3).map(doc => {
                     const m = doc.data();
                     return `<div class="emergency-modal-item">
@@ -637,6 +642,7 @@
 
         function dismissEmergency() {
             document.getElementById('emergencyModal').style.display = 'none';
+            sessionStorage.setItem('emergencyDismissed', 'true');
         }
 
         function esc(str) {
