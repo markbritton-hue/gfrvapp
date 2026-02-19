@@ -102,7 +102,6 @@
         .form-select option { background: #1e293b; }
 
         .form-panel { display: none; }
-        .price-row   { display: none; }
 
         .btn-post {
             background: #f59e0b; border: none; font-weight: 600; padding: 12px 30px;
@@ -160,6 +159,19 @@
         .listing-desc {
             color: rgba(255,255,255,0.8); font-size: 0.95rem;
             line-height: 1.7; white-space: pre-wrap; word-break: break-word;
+        }
+
+        .listing-image {
+            width: 100%; max-height: 260px; object-fit: cover;
+            border-radius: 8px; margin-bottom: 12px; display: block;
+        }
+
+        .img-upload-label {
+            color: rgba(255,255,255,0.5); font-size: 0.8rem; margin-top: 6px;
+        }
+
+        .form-control[type="file"] {
+            padding: 8px 12px; cursor: pointer;
         }
 
         .listing-actions { display: none; gap: 10px; margin-left: auto; }
@@ -380,9 +392,14 @@
                 <label class="form-label">Description</label>
                 <textarea id="inputDesc" class="form-control" rows="4" placeholder="Describe the item or service..."></textarea>
             </div>
-            <div class="mb-4">
+            <div class="mb-3">
                 <label class="form-label">Contact Info</label>
                 <input type="text" id="inputContact" class="form-control" placeholder="e.g. call/text 555-1234 or Lot 42">
+            </div>
+            <div class="mb-4">
+                <label class="form-label">Photo (optional)</label>
+                <input type="file" id="inputImage" accept="image/*" class="form-control">
+                <div class="img-upload-label">Attach one photo (jpg, png, etc.)</div>
             </div>
             <button id="btnPost" class="btn-post" onclick="postListing()">
                 <i class="fas fa-paper-plane me-2"></i>Post Listing
@@ -440,7 +457,7 @@
                     <option value="services">Services</option>
                 </select>
             </div>
-            <div id="editPriceRow" class="mb-3" style="display:none;">
+            <div id="editPriceRow" class="mb-3">
                 <label class="form-label">Price</label>
                 <input type="text" id="editPrice" class="form-control" placeholder="e.g. $50 or OBO">
             </div>
@@ -448,9 +465,15 @@
                 <label class="form-label">Description</label>
                 <textarea id="editDesc" class="form-control" rows="4"></textarea>
             </div>
-            <div class="mb-4">
+            <div class="mb-3">
                 <label class="form-label">Contact Info</label>
                 <input type="text" id="editContact" class="form-control">
+            </div>
+            <div class="mb-4">
+                <label class="form-label">Replace Photo (optional)</label>
+                <div id="editCurrentImage" style="margin-bottom:8px;"></div>
+                <input type="file" id="editImage" accept="image/*" class="form-control">
+                <div class="img-upload-label">Upload a new photo to replace the existing one</div>
             </div>
             <div style="display:flex; gap:12px; flex-wrap:wrap;">
                 <button id="btnSaveEdit" class="btn-save" onclick="saveEdit()">
@@ -486,6 +509,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyByg9ZY5dIV9_WvQ8I5ydDNqzTaz40zuho",
@@ -498,7 +522,8 @@
 
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
-        const db   = firebase.firestore();
+        const db      = firebase.firestore();
+        const storage = firebase.storage();
         const listingsRef = db.collection('classifieds');
 
         let currentUser = null;
@@ -558,7 +583,8 @@
             list.innerHTML = filtered.map(doc => {
                 const l = doc.data();
                 const price   = l.price ? `<span class="listing-price">${esc(l.price)}</span>` : '';
-                const contact = l.contact ? `<div class="listing-contact"><i class="fas fa-phone-flip"></i>${esc(l.contact)}</div>` : '';
+                const contact = l.contact ? `<div class="listing-contact"><i class="fas fa-phone-flip"></i>${linkifyContact(l.contact)}</div>` : '';
+                const image   = l.imageUrl ? `<img src="${esc(l.imageUrl)}" class="listing-image" alt="Listing photo">` : '';
                 const actions = currentUser
                     ? `<div class="listing-actions visible">
                            <button class="btn-action btn-edit" onclick="event.stopPropagation(); openEditModal('${doc.id}')" title="Full edit"><i class="fas fa-pencil"></i></button>
@@ -579,6 +605,7 @@
                         <span class="listing-date">${formatDate(l.ts)}</span>
                         ${actions}
                     </div>
+                    ${image}
                     <div class="listing-desc" id="desc-${doc.id}">${esc(l.desc)}</div>
                     <div class="inline-edit-area" id="inline-${doc.id}">
                         <textarea class="inline-textarea" id="inline-input-${doc.id}">${esc(l.desc)}</textarea>
@@ -628,8 +655,12 @@
             document.getElementById('editPrice').value    = l.price   || '';
             document.getElementById('editDesc').value     = l.desc    || '';
             document.getElementById('editContact').value  = l.contact || '';
+            document.getElementById('editImage').value   = '';
+            const imgPreview = document.getElementById('editCurrentImage');
+            imgPreview.innerHTML = l.imageUrl
+                ? `<img src="${l.imageUrl}" style="max-width:100%;max-height:150px;border-radius:8px;object-fit:cover;">`
+                : '<span style="color:rgba(255,255,255,0.3);font-size:0.82rem;">No photo</span>';
             document.getElementById('editError').style.display = 'none';
-            onEditCategoryChange();
             document.getElementById('editModal').style.display = 'flex';
         }
 
@@ -638,21 +669,19 @@
             editingId = null;
         }
 
-        function onEditCategoryChange() {
-            const cat = document.getElementById('editCategory').value;
-            document.getElementById('editPriceRow').style.display = cat === 'for-sale' ? 'block' : 'none';
-        }
+        function onEditCategoryChange() { /* price always visible */ }
 
         async function saveEdit() {
             if (!editingId) return;
-            const name     = document.getElementById('editName').value.trim();
-            const title    = document.getElementById('editTitle').value.trim();
-            const category = document.getElementById('editCategory').value;
-            const price    = category === 'for-sale' ? document.getElementById('editPrice').value.trim() : '';
-            const desc     = document.getElementById('editDesc').value.trim();
-            const contact  = document.getElementById('editContact').value.trim();
-            const errEl    = document.getElementById('editError');
-            const btn      = document.getElementById('btnSaveEdit');
+            const name      = document.getElementById('editName').value.trim();
+            const title     = document.getElementById('editTitle').value.trim();
+            const category  = document.getElementById('editCategory').value;
+            const price     = document.getElementById('editPrice').value.trim();
+            const desc      = document.getElementById('editDesc').value.trim();
+            const contact   = document.getElementById('editContact').value.trim();
+            const imageFile = document.getElementById('editImage').files[0];
+            const errEl     = document.getElementById('editError');
+            const btn       = document.getElementById('btnSaveEdit');
 
             if (!name || !title || !desc) {
                 errEl.textContent = 'Name, title, and description are required.';
@@ -664,7 +693,15 @@
             errEl.style.display = 'none';
 
             try {
-                await listingsRef.doc(editingId).update({ name, title, category, price, desc, contact });
+                const currentDoc  = lastDocs ? lastDocs.find(d => d.id === editingId) : null;
+                let imageUrl      = currentDoc ? (currentDoc.data().imageUrl || '') : '';
+                if (imageFile) {
+                    btn.innerHTML = '<i class="fas fa-circle-notch fa-spin me-2"></i>Uploading photo...';
+                    const storageRef = storage.ref('classifieds/' + Date.now() + '_' + imageFile.name);
+                    const snapshot   = await storageRef.put(imageFile);
+                    imageUrl         = await snapshot.ref.getDownloadURL();
+                }
+                await listingsRef.doc(editingId).update({ name, title, category, price, desc, contact, imageUrl });
                 closeEditModal();
             } catch (err) {
                 errEl.textContent = 'Could not save: ' + err.message;
@@ -686,20 +723,18 @@
             label.textContent = open ? 'Post a Listing' : 'Cancel';
         }
 
-        function onCategoryChange() {
-            const cat = document.getElementById('inputCategory').value;
-            document.getElementById('priceRow').style.display = cat === 'for-sale' ? 'block' : 'none';
-        }
+        function onCategoryChange() { /* price always visible */ }
 
         async function postListing() {
-            const name     = document.getElementById('inputName').value.trim();
-            const title    = document.getElementById('inputTitle').value.trim();
-            const category = document.getElementById('inputCategory').value;
-            const price    = category === 'for-sale' ? document.getElementById('inputPrice').value.trim() : '';
-            const desc     = document.getElementById('inputDesc').value.trim();
-            const contact  = document.getElementById('inputContact').value.trim();
-            const errEl    = document.getElementById('postError');
-            const btn      = document.getElementById('btnPost');
+            const name      = document.getElementById('inputName').value.trim();
+            const title     = document.getElementById('inputTitle').value.trim();
+            const category  = document.getElementById('inputCategory').value;
+            const price     = document.getElementById('inputPrice').value.trim();
+            const desc      = document.getElementById('inputDesc').value.trim();
+            const contact   = document.getElementById('inputContact').value.trim();
+            const imageFile = document.getElementById('inputImage').files[0];
+            const errEl     = document.getElementById('postError');
+            const btn       = document.getElementById('btnPost');
 
             if (!name || !title || !desc) {
                 errEl.textContent = 'Please fill in your name, title, and description.';
@@ -711,10 +746,17 @@
             btn.innerHTML = '<i class="fas fa-circle-notch fa-spin me-2"></i>Posting...';
 
             try {
-                await listingsRef.add({ name, title, category, price, desc, contact, status: 'pending', ts: firebase.firestore.FieldValue.serverTimestamp() });
+                let imageUrl = '';
+                if (imageFile) {
+                    btn.innerHTML = '<i class="fas fa-circle-notch fa-spin me-2"></i>Uploading photo...';
+                    const storageRef = storage.ref('classifieds/' + Date.now() + '_' + imageFile.name);
+                    const snapshot   = await storageRef.put(imageFile);
+                    imageUrl         = await snapshot.ref.getDownloadURL();
+                }
+                await listingsRef.add({ name, title, category, price, desc, contact, imageUrl, status: 'pending', ts: firebase.firestore.FieldValue.serverTimestamp() });
                 ['inputName','inputTitle','inputPrice','inputDesc','inputContact'].forEach(id => document.getElementById(id).value = '');
                 document.getElementById('inputCategory').value = 'for-sale';
-                onCategoryChange();
+                document.getElementById('inputImage').value   = '';
                 document.getElementById('pendingNotice').style.display = 'block';
                 setTimeout(() => {
                     document.getElementById('pendingNotice').style.display = 'none';
@@ -790,6 +832,13 @@
         }
 
         // --- Helpers ---
+        function linkifyContact(text) {
+            // Escape first, then wrap email addresses in mailto links
+            const escaped = esc(text);
+            return escaped.replace(/([a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,})/g,
+                '<a href="mailto:$1" style="color:#60a5fa;" onclick="event.stopPropagation()">$1</a>');
+        }
+
         function catLabel(cat) {
             return { 'for-sale': 'For Sale', 'wanted': 'Wanted', 'free': 'Free', 'services': 'Services' }[cat] || cat;
         }

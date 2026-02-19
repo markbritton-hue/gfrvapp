@@ -578,6 +578,10 @@
                 list.innerHTML = `<div class="empty-state"><i class="fas fa-comments"></i>No messages yet. Be the first to post!</div>`;
                 return;
             }
+            // Emergency messages always pinned to the top, then the rest by timestamp
+            const emergency = docs.filter(d => d.data().category === 'emergency');
+            const rest      = docs.filter(d => d.data().category !== 'emergency');
+            docs = [...emergency, ...rest];
             list.innerHTML = docs.map(doc => {
                 const m = doc.data();
                 const eventDate = m.eventDate
