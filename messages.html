@@ -265,6 +265,35 @@
 
         .btn-cancel-edit:hover { border-color: rgba(255,255,255,0.4); color: rgba(255,255,255,0.8); }
 
+        /* Inline edit */
+        .inline-edit-area { display: none; margin-top: 10px; }
+
+        .inline-textarea {
+            background: rgba(15,23,42,0.7);
+            border: 2px solid rgba(96,165,250,0.4);
+            color: white; border-radius: 8px; padding: 10px;
+            width: 100%; resize: vertical; min-height: 80px;
+            font-family: inherit; font-size: 0.95rem; line-height: 1.7; outline: none;
+        }
+
+        .inline-textarea:focus { border-color: #60a5fa; box-shadow: 0 0 0 3px rgba(96,165,250,0.2); }
+
+        .inline-buttons { display: flex; gap: 8px; margin-top: 8px; }
+
+        .btn-inline-save {
+            background: #60a5fa; border: none; color: white; font-weight: 600;
+            padding: 7px 18px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;
+        }
+
+        .btn-inline-save:hover { background: #3b82f6; }
+
+        .btn-inline-cancel {
+            background: none; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.5);
+            font-weight: 600; padding: 7px 18px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;
+        }
+
+        .btn-inline-cancel:hover { border-color: rgba(255,255,255,0.4); color: rgba(255,255,255,0.8); }
+
         .event-date-badge {
             display: inline-flex; align-items: center; gap: 6px;
             background: rgba(167,139,250,0.15); color: #a78bfa;
@@ -556,7 +585,7 @@
                     : '';
                 const actions = currentUser
                     ? `<div class="message-actions visible">
-                           <button class="btn-action btn-edit" onclick="startEdit('${doc.id}')" title="Edit">
+                           <button class="btn-action btn-edit" onclick="event.stopPropagation(); openEditModal('${doc.id}')" title="Full edit">
                                <i class="fas fa-pencil"></i>
                            </button>
                            <button class="btn-action btn-delete" onclick="event.stopPropagation(); deleteMessage('${doc.id}')" title="Delete">
@@ -564,7 +593,7 @@
                            </button>
                        </div>`
                     : '';
-                const clickHandler = currentUser ? `onclick="startEdit('${doc.id}')" style="cursor:pointer;"` : '';
+                const clickHandler = currentUser ? `onclick="startInlineEdit('${doc.id}')" style="cursor:pointer;"` : '';
                 return `
                 <div class="message-card card-${esc(m.category)}" id="card-${doc.id}" ${clickHandler}>
                     <div class="message-meta">
@@ -573,16 +602,46 @@
                         <span class="message-date">${formatDate(m.ts)}</span>
                         ${actions}
                     </div>
-                    <div class="message-text">${esc(m.text)}</div>
+                    <div class="message-text" id="msg-text-${doc.id}">${esc(m.text)}</div>
                     ${eventDate}
+                    <div class="inline-edit-area" id="inline-${doc.id}">
+                        <textarea class="inline-textarea" id="inline-input-${doc.id}">${esc(m.text)}</textarea>
+                        <div class="inline-buttons">
+                            <button class="btn-inline-save" onclick="event.stopPropagation(); saveInlineEdit('${doc.id}')"><i class="fas fa-check me-1"></i>Save</button>
+                            <button class="btn-inline-cancel" onclick="event.stopPropagation(); cancelInlineEdit('${doc.id}')">Cancel</button>
+                        </div>
+                    </div>
                 </div>`;
             }).join('');
         }
 
-        // --- Edit Modal ---
+        // --- Inline Edit (card click) ---
+        function startInlineEdit(id) {
+            document.getElementById('msg-text-' + id).style.display = 'none';
+            const area = document.getElementById('inline-' + id);
+            area.style.display = 'block';
+            document.getElementById('inline-input-' + id).focus();
+        }
+
+        function cancelInlineEdit(id) {
+            document.getElementById('msg-text-' + id).style.display = 'block';
+            document.getElementById('inline-' + id).style.display = 'none';
+        }
+
+        async function saveInlineEdit(id) {
+            const text = document.getElementById('inline-input-' + id).value.trim();
+            if (!text) return;
+            try {
+                await messagesRef.doc(id).update({ text });
+            } catch (err) {
+                alert('Could not save: ' + err.message);
+            }
+        }
+
+        // --- Full Edit Modal (pencil button) ---
         let editingId = null;
 
-        function startEdit(id) {
+        function openEditModal(id) {
             const doc = lastDocs.find(d => d.id === id);
             if (!doc) return;
             const m = doc.data();
