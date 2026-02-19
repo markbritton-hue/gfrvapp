@@ -111,6 +111,16 @@
 
         .review-contact { color: rgba(255,255,255,0.45); font-size: 0.85rem; margin-bottom: 14px; }
 
+        .review-image {
+            width: 100%; max-height: 240px; object-fit: cover;
+            border-radius: 8px; margin-bottom: 10px; display: block;
+        }
+
+        .approved-thumb {
+            width: 48px; height: 48px; object-fit: cover;
+            border-radius: 6px; flex-shrink: 0;
+        }
+
         .review-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 
         .btn-approve {
@@ -382,6 +392,7 @@
                 const l = doc.data();
                 const price   = l.price   ? `<span class="review-price">${esc(l.price)}</span>` : '';
                 const contact = l.contact ? `<div class="review-contact"><i class="fas fa-phone-flip me-1"></i>${esc(l.contact)}</div>` : '';
+                const image   = l.imageUrl ? `<img src="${esc(l.imageUrl)}" class="review-image" alt="Listing photo">` : '';
                 return `
                 <div class="review-card">
                     <div class="review-header">
@@ -394,6 +405,7 @@
                         <span class="review-date">${formatDate(l.ts)}</span>
                     </div>
                     <div class="review-desc">${esc(l.desc)}</div>
+                    ${image}
                     ${contact}
                     <div class="review-actions">
                         <button class="btn-approve" onclick="setStatus('${doc.id}', 'approved')">
@@ -415,8 +427,10 @@
             }
             el.innerHTML = docs.map(doc => {
                 const l = doc.data();
+                const thumb = l.imageUrl ? `<img src="${esc(l.imageUrl)}" class="approved-thumb" alt="photo">` : '';
                 return `
                 <div class="approved-card">
+                    ${thumb}
                     <span class="review-category cat-${esc(l.category)}">${catLabel(l.category)}</span>
                     <span class="approved-title">${esc(l.title)}</span>
                     <span class="approved-author">${esc(l.name)}</span>
